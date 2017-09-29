@@ -1,5 +1,5 @@
 # Cacophony - A Desktop Messaging Application #
-### Created for SE3430 at University of Wisconsin-Platteville
+### Created for SE3430 at the University of Wisconsin-Platteville
 ---
 
 ### Contributors
@@ -8,6 +8,8 @@
 - Jarrett S.
 - Michael T.
 - Joey V.
+
+Contributions are currently only accepted from the above list. Once we are finished with this course, community contributions will be accepted.
 
 ### Description
 Cacophony is a simple messaging application with key differences to current messaging client on the market. For example, cacophony offers the advantage of being able to be used through a local connection, instead of being constantly online.
