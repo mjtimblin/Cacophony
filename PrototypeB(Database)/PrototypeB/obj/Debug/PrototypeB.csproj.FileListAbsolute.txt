@@ -1,9 +1,0 @@
-J:\OOAD\PrototypeB\PrototypeB\bin\Debug\PrototypeB.exe.config
-J:\OOAD\PrototypeB\PrototypeB\bin\Debug\PrototypeB.exe
-J:\OOAD\PrototypeB\PrototypeB\bin\Debug\PrototypeB.pdb
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.csprojResolveAssemblyReference.cache
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.Form1.resources
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.Properties.Resources.resources
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.csproj.GenerateResource.Cache
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.exe
-J:\OOAD\PrototypeB\PrototypeB\obj\Debug\PrototypeB.pdb
