@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PrototypeD
+namespace PrototypeE
 {
     public partial class JoinServerForm : Form
     {

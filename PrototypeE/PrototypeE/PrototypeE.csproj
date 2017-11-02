@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90C04D8E-E036-47FC-A406-4C30E7787CAD}</ProjectGuid>
+    <ProjectGuid>{A77745B0-F60E-474F-AFF6-C95272811A2E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PrototypeE</RootNamespace>
@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -53,31 +53,52 @@
     <Compile Include="ChatRoom%28Client%29.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChatRoom%28Client%29.Designer.cs" />
+    <Compile Include="ChatRoom%28Client%29.Designer.cs">
+      <DependentUpon>ChatRoom%28Client%29.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChatRoom%28Host%29.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChatRoom%28Host%29.Designer.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="CreateServerForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="ChatRoom%28Host%29.Designer.cs">
+      <DependentUpon>ChatRoom%28Host%29.cs</DependentUpon>
     </Compile>
-    <Compile Include="CreateServerForm.Designer.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="JoinServerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JoinServerForm.Designer.cs" />
+    <Compile Include="JoinServerForm.Designer.cs">
+      <DependentUpon>JoinServerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateServerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateServerForm.Designer.cs">
+      <DependentUpon>CreateServerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Message.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartForm.Designer.cs" />
-    <EmbeddedResource Include="ChatRoom%28Client%29.resx" />
-    <EmbeddedResource Include="ChatRoom%28Host%29.resx" />
-    <EmbeddedResource Include="CreateServerForm.resx" />
-    <EmbeddedResource Include="JoinServerForm.resx" />
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChatRoom%28Client%29.resx">
+      <DependentUpon>ChatRoom%28Client%29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChatRoom%28Host%29.resx">
+      <DependentUpon>ChatRoom%28Host%29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateServerForm.resx">
+      <DependentUpon>CreateServerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinServerForm.resx">
+      <DependentUpon>JoinServerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -86,8 +107,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="StartForm.resx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

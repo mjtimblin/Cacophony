@@ -13,7 +13,7 @@ using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-namespace PrototypeD
+namespace PrototypeE
 {
     public partial class ChatRoom_Host_ : Form
     {

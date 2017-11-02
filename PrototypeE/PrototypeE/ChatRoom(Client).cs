@@ -12,7 +12,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-namespace PrototypeD
+namespace PrototypeE
 {
     public partial class ChatRoom_Client_ : Form
     {
