@@ -21,4 +21,4 @@ Master
 </pre>
 
 ### Future Changes / To Do's
-This project is still in active development. Check back in the future for an official release and up-to-date projections.
+This project is still in active development. View our current progress and to do's on our Trello board (https://trello.com/b/fGv4qNQL).
