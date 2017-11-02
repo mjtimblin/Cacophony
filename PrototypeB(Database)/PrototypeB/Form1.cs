@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.IO;
 
 namespace PrototypeB
 {
@@ -26,7 +27,7 @@ namespace PrototypeB
         private void button1_Click(object sender, EventArgs e)
         {
             OleDbConnection connect = new OleDbConnection();
-            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=J:\OOAD\DBA.accdb";
+            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
             string QueryText = "INSERT INTO Messages (GroupID, UserID, PostDate, Message) values (@GroupID, @UserID, @PostDate, @Message)";
             connect.Open();
             using (OleDbCommand command = new OleDbCommand(QueryText))
@@ -54,7 +55,7 @@ namespace PrototypeB
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             OleDbConnection connect = new OleDbConnection();
-            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=J:\OOAD\DBA.accdb";
+            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
             string QueryText = "Select Messages.Message, Messages.PostDate, Messages.UserID, Users.Alias From Messages Inner Join Users On Messages.UserID = Users.UserID Where GroupID = 1";
             connect.Open();
             using (OleDbCommand command = new OleDbCommand(QueryText))
