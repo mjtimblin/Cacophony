@@ -63,6 +63,7 @@
       <DependentUpon>ChatRoom%28Host%29.cs</DependentUpon>
     </Compile>
     <Compile Include="Client.cs" />
+    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="JoinServerForm.cs">
       <SubType>Form</SubType>
     </Compile>

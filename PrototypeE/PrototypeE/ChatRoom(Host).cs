@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Data.OleDb;
 
 namespace PrototypeE
 {
@@ -37,6 +38,9 @@ namespace PrototypeE
         private void ChatRoom_Host__Load(object sender, EventArgs e)
         {
             //On form load event.  Might want to check rights here.
+            String[] messages = DatabaseHelper.getMessages();
+            for (int i = 0; i < messages.Length; i++)
+                ChatPost(messages[i]);
         }
 
         public void StartHost()
