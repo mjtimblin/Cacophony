@@ -1,0 +1,13 @@
+J:\Cacophony.git\trunk\Cacophony\Cacophony\bin\Debug\Cacophony.exe.config
+J:\Cacophony.git\trunk\Cacophony\Cacophony\bin\Debug\Cacophony.exe
+J:\Cacophony.git\trunk\Cacophony\Cacophony\bin\Debug\Cacophony.pdb
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.csprojResolveAssemblyReference.cache
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Forms.CreateGroupForm.resources
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Forms.JoinGroupForm.resources
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Forms.StartForm.resources
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Properties.Resources.resources
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.csproj.GenerateResource.Cache
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.exe
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.pdb
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Forms.ServerChatForm.resources
+J:\Cacophony.git\trunk\Cacophony\Cacophony\obj\Debug\Cacophony.Forms.ClientChatForm.resources
