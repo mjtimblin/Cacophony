@@ -59,5 +59,25 @@ namespace PrototypeE.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CacophonyLogo {
+            get {
+                object obj = ResourceManager.GetObject("CacophonyLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CacophonyLogoCoolBackground {
+            get {
+                object obj = ResourceManager.GetObject("CacophonyLogoCoolBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
