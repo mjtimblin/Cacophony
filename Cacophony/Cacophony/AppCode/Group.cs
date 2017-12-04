@@ -9,20 +9,38 @@ namespace Cacophony.AppCode
 {
     public class Group
     {
+        private int groupID;
         private string groupName;
         private string password;
         private bool isLocked = false;
-        //private string ip;//Might not need
         private int port;
         private List<int> moderators = new List<int>();
         private int owner;//Might change
 
-        public Group(string groupName, string password, int port, int owner)
+        public Group(int groupID, string groupName, string password, int port, int owner)
         {
+            this.groupID = groupID;
             this.groupName = groupName;
             this.password = password;
             this.port = port;
             this.owner = owner;
+        }
+
+        public Group(int groupID, string groupName, string password, List<int> moderators, int owner)
+        {
+            this.groupID = groupID;
+            this.groupName = groupName;
+            this.password = password;
+            this.moderators = moderators;
+            this.owner = owner;
+        }
+
+        public int GroupID
+        {
+            get
+            {
+                return groupID;
+            }
         }
 
         public string GroupName
@@ -56,14 +74,6 @@ namespace Cacophony.AppCode
                 isLocked = value;
             }
         }
-
-        //public string IP
-        //{
-        //    get
-        //    {
-        //        return ip;
-        //    }
-        //}
 
         public int Port
         {

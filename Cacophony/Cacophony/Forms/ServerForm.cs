@@ -11,10 +11,10 @@ using Cacophony.AppCode;
 
 namespace Cacophony.Forms
 {
-    public partial class ServerChatForm : Form
+    public partial class ServerForm : Form
     {
         private Server server;
-        public ServerChatForm(Server server)
+        public ServerForm(Server server)
         {
             this.server = server;
             InitializeComponent();

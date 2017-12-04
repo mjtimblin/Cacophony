@@ -8,9 +8,8 @@ namespace Cacophony.AppCode
 {
     public class User
     {
-        private string ip;
-        private int userID = -1;
-        private string username;
+        private int userID;
+        private string alias;
 
         public int UserID
         {
@@ -24,35 +23,15 @@ namespace Cacophony.AppCode
             }
         }
 
-        public bool IsValidated
+        public string Alias
         {
             get
             {
-                return (userID != null);
-            }
-        }
-
-        public string IPAddress
-        {
-            get
-            {
-                return ip;
+                return alias;
             }
             set
             {
-                ip = value;
-            }
-        }
-
-        public string Username
-        {
-            get
-            {
-                return username;
-            }
-            set
-            {
-                username = value;
+                alias = value;
             }
         }
     }

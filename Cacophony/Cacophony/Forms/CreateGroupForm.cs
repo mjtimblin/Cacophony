@@ -21,12 +21,13 @@ namespace Cacophony.Forms
 
         private void btnCreateGroup_Click(object sender, EventArgs e)
         {
+
             Group group = new Group(cbxGroupName.Text, txtPassword.Text, int.Parse(txtPort.Text), 0);
             Server server = new Server();
             if(server.StartServer(group))
             {
                 this.Hide();
-                var HostChat = new ServerChatForm(server);
+                var HostChat = new ServerForm(server);
                 Thread thread = new Thread(ApplicationRunProc);
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.IsBackground = true;

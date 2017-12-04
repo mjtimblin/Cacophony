@@ -13,20 +13,20 @@ namespace Cacophony.AppCode
     {
         protected int messageID;
 
-        protected DateTime timestamp;
+        protected DateTime postDate;
 
         protected int userID;
 
         public Message(int userID)
         {
             this.userID = userID;
-            this.timestamp = DateTime.UtcNow;
+            this.postDate = DateTime.UtcNow;
         }
 
-        public Message(int userID, int messageID, DateTime timestamp)
+        public Message(int userID, int messageID, DateTime postDate)
         {
             this.userID = userID;
-            this.timestamp = timestamp;
+            this.postDate = postDate;
             this.messageID = messageID;
         }
 
@@ -38,11 +38,11 @@ namespace Cacophony.AppCode
             }
         }
 
-        public DateTime Timestamp
+        public DateTime PostDate
         {
             get
             {
-                return timestamp;
+                return postDate;
             }
         }
 

@@ -76,11 +76,11 @@
     <Compile Include="Forms\JoinGroupForm.Designer.cs">
       <DependentUpon>JoinGroupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ServerChatForm.cs">
+    <Compile Include="Forms\ServerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ServerChatForm.Designer.cs">
-      <DependentUpon>ServerChatForm.cs</DependentUpon>
+    <Compile Include="Forms\ServerForm.Designer.cs">
+      <DependentUpon>ServerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\StartForm.cs">
       <SubType>Form</SubType>
@@ -99,8 +99,8 @@
     <EmbeddedResource Include="Forms\JoinGroupForm.resx">
       <DependentUpon>JoinGroupForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ServerChatForm.resx">
-      <DependentUpon>ServerChatForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ServerForm.resx">
+      <DependentUpon>ServerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>

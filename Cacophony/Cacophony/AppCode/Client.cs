@@ -19,7 +19,7 @@ namespace Cacophony.AppCode
         public bool StartClient(string ip, int port, string password, int userID, string username)
         {
             user = new User();
-            user.Username = username;
+            user.Alias = username;
             user.UserID = userID;
 
             clientSocket.Connect(ip, port);
