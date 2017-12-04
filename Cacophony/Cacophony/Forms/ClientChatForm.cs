@@ -8,15 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cacophony.AppCode;
+using Cacophony.Forms;
 
 namespace Cacophony.Forms
 {
     public partial class ClientChatForm : Form
     {
-        private Client client;
-        public ClientChatForm(Client client)
+        public Client client;
+
+        public ClientChatForm(User user, string IP, int port)
         {
-            this.client = client;
+            this.client = new Client();
+            client.parentForm = this;
+            client.StartClient(IP, port, user);
             InitializeComponent();
         }
 

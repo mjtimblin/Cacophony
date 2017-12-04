@@ -7,22 +7,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using Cacophony.AppCode;
+using Cacophony.Forms;
 
 namespace Cacophony.AppCode
 {
     public class Server
     {
-        private Group group;
+        public Group group;
         //private DatabaseHelper db; Probably Static
+        public ServerForm parentForm;
 
         private TcpListener clientListener;
 
-        public bool StartServer(Group group)
+        public bool StartServer()
         {
-            this.group = group;
-            //Might want to add functionality to change port.
             Thread AcceptClientThread = new Thread(AcceptClient);
             AcceptClientThread.Start();
+            parentForm.Log("--Server initialized.");
             return true;
         }
 
@@ -35,11 +36,9 @@ namespace Cacophony.AppCode
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = clientListener.AcceptTcpClient();
                 ClientConnection cc = new ClientConnection();
-                cc.Client = new User();
-                cc.Client.IPAddress = clientSocket.Client.RemoteEndPoint.ToString();
                 cc.TcpC = clientSocket;
                 cc.ListeningThread = new Thread(() => ListenToClient(cc));
-                //Log(">> Client Connected");
+                parentForm.Log("--Client Connected.");
                 cc.ListeningThread.Start();
             }
         }
@@ -60,7 +59,7 @@ namespace Cacophony.AppCode
             }
             catch (Exception ex)
             {
-                //Log(ex.ToString());
+                parentForm.Log(ex.ToString());
                 return;
             }
         }

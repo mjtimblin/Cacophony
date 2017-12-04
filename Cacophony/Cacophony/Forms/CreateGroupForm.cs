@@ -21,22 +21,33 @@ namespace Cacophony.Forms
 
         private void btnCreateGroup_Click(object sender, EventArgs e)
         {
-            Group group;
+            //Error Checking
+            if (string.IsNullOrWhiteSpace(cbxGroupName.Text))
+            {
+                MessageBox.Show("Group name cannot be empty!");
+                return;
+            }
+            int portNum;
+            if(string.IsNullOrWhiteSpace(txtPort.Text) || !int.TryParse(txtPort.Text, out portNum) || portNum < 0 || portNum > 9999)
+            {
+                MessageBox.Show("Invalid Port!");
+                return;
+            }
+
+            //Check if group exists in database, or create a new group.
+            Group group = null;
             //group = SelectGroupByID(cbxGroupName.SelectedItem);  Should return a group object or null if doesnt exist
             if(group == null)
             {
-                group = new Group(cbxGroupName.Text, txtPassword.Text, int.Parse(txtPort.Text), 0);
+                group = new Group(cbxGroupName.Text, txtPassword.Text, portNum);
             }
-            Server server = new Server();
-            if(server.StartServer(group))
-            {
-                this.Hide();
-                var HostChat = new ServerForm(server);
-                Thread thread = new Thread(ApplicationRunProc);
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.IsBackground = true;
-                thread.Start(HostChat);
-            }
+
+            this.Hide();
+            var serverLog = new ServerForm(group);
+            Thread thread = new Thread(ApplicationRunProc);
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start(serverLog);
         }
 
         private static void ApplicationRunProc(object state)
@@ -47,9 +58,9 @@ namespace Cacophony.Forms
         private void CreateGroupForm_Load(object sender, EventArgs e)
         {
             //Populate ComboBox with all groups in the database.
-            string[] groups;
+            //string[] groups= null;
             //groups = SelectAllGroups();
-            cbxGroupName.Items.AddRange(groups);
+            //cbxGroupName.Items.AddRange(groups);
         }
     }
 }

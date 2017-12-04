@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using Cacophony.Forms;
 
 namespace Cacophony.AppCode
 {
@@ -13,51 +14,16 @@ namespace Cacophony.AppCode
         private TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         private Thread serverListener;
         private User user;
-        //public string IP;
-        //public int port = 5764;
 
-        public bool StartClient(string ip, int port, string password, int userID, string username)
+        public ClientChatForm parentForm;
+
+        public bool StartClient(string ip, int port, User user)
         {
-            user = new User();
-            user.Alias = username;
-            user.UserID = userID;
-
+            this.user = user;
             clientSocket.Connect(ip, port);
-            var isValidated = Login(password);
-            if(isValidated)
-            {
-                serverListener = new Thread(ListenToServer);
-                serverListener.Start();
-            }
-            return isValidated;
-        }
-
-        private bool Login(string password)
-        {
-            Message request = new CommandMessage(user.UserID, CommandType.ValidateAttempt, password + "|" + user.Alias);//Might need to change format
-            SendToServer(request);
-            NetworkStream networkStream = clientSocket.GetStream();
-            networkStream.ReadTimeout = 5000;
-            byte[] bytesFrom = new byte[10025];
-            try
-            {
-                networkStream.Read(bytesFrom, 0, 10025);
-                networkStream.ReadTimeout = Timeout.Infinite;
-                var response = Message.DeserializeMessage(bytesFrom);
-                if (response is CommandMessage && ((CommandMessage)response).type == CommandType.ValidateConfirm)
-                {
-                    return true;
-                }
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
-            finally
-            {
-                networkStream.ReadTimeout = Timeout.Infinite;
-            }
-            return false;
+            serverListener = new Thread(ListenToServer);
+            serverListener.Start();
+            return true;
         }
 
         private void ListenToServer()

@@ -15,6 +15,11 @@ namespace Cacophony.AppCode
             this.content = content;
         }
 
+        public TextMessage(int userID, int textID, DateTime postDate, string content) : base(userID, textID, postDate)
+        {
+            this.content = content;
+        }
+
         public string Content
         {
             get

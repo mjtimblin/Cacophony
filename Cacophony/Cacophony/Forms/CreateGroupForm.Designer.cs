@@ -69,28 +69,28 @@
             this.cbxGroupName.FormattingEnabled = true;
             this.cbxGroupName.Location = new System.Drawing.Point(73, 63);
             this.cbxGroupName.Name = "cbxGroupName";
-            this.cbxGroupName.Size = new System.Drawing.Size(121, 21);
+            this.cbxGroupName.Size = new System.Drawing.Size(199, 21);
             this.cbxGroupName.TabIndex = 5;
             // 
             // txtPort
             // 
             this.txtPort.Location = new System.Drawing.Point(73, 4);
             this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(100, 20);
+            this.txtPort.Size = new System.Drawing.Size(199, 20);
             this.txtPort.TabIndex = 6;
             // 
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(73, 34);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.Size = new System.Drawing.Size(199, 20);
             this.txtPassword.TabIndex = 7;
             // 
             // btnCreateGroup
             // 
-            this.btnCreateGroup.Location = new System.Drawing.Point(3, 92);
+            this.btnCreateGroup.Location = new System.Drawing.Point(73, 92);
             this.btnCreateGroup.Name = "btnCreateGroup";
-            this.btnCreateGroup.Size = new System.Drawing.Size(97, 23);
+            this.btnCreateGroup.Size = new System.Drawing.Size(199, 23);
             this.btnCreateGroup.TabIndex = 8;
             this.btnCreateGroup.Text = "Create Group";
             this.btnCreateGroup.UseVisualStyleBackColor = true;

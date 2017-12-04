@@ -36,7 +36,7 @@
             this.txtIP = new System.Windows.Forms.TextBox();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtReturningCode = new System.Windows.Forms.TextBox();
+            this.txtPIN = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.btnJoinGroup = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -73,9 +73,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(0, 92);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(155, 13);
+            this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Returning User Code (optional):";
+            this.label4.Text = "PIN:";
             // 
             // label5
             // 
@@ -88,44 +88,44 @@
             // 
             // txtIP
             // 
-            this.txtIP.Location = new System.Drawing.Point(161, 2);
+            this.txtIP.Location = new System.Drawing.Point(93, 6);
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(100, 20);
             this.txtIP.TabIndex = 5;
             // 
             // txtPort
             // 
-            this.txtPort.Location = new System.Drawing.Point(161, 31);
+            this.txtPort.Location = new System.Drawing.Point(93, 35);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(100, 20);
             this.txtPort.TabIndex = 6;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(162, 59);
+            this.txtPassword.Location = new System.Drawing.Point(94, 63);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 7;
             // 
-            // txtReturningCode
+            // txtPIN
             // 
-            this.txtReturningCode.Location = new System.Drawing.Point(161, 89);
-            this.txtReturningCode.Name = "txtReturningCode";
-            this.txtReturningCode.Size = new System.Drawing.Size(100, 20);
-            this.txtReturningCode.TabIndex = 8;
+            this.txtPIN.Location = new System.Drawing.Point(94, 89);
+            this.txtPIN.Name = "txtPIN";
+            this.txtPIN.Size = new System.Drawing.Size(100, 20);
+            this.txtPIN.TabIndex = 8;
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(162, 118);
+            this.txtUsername.Location = new System.Drawing.Point(93, 118);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
             this.txtUsername.TabIndex = 9;
             // 
             // btnJoinGroup
             // 
-            this.btnJoinGroup.Location = new System.Drawing.Point(12, 154);
+            this.btnJoinGroup.Location = new System.Drawing.Point(93, 144);
             this.btnJoinGroup.Name = "btnJoinGroup";
-            this.btnJoinGroup.Size = new System.Drawing.Size(75, 23);
+            this.btnJoinGroup.Size = new System.Drawing.Size(100, 23);
             this.btnJoinGroup.TabIndex = 10;
             this.btnJoinGroup.Text = "Join Group";
             this.btnJoinGroup.UseVisualStyleBackColor = true;
@@ -135,10 +135,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 193);
+            this.ClientSize = new System.Drawing.Size(221, 178);
             this.Controls.Add(this.btnJoinGroup);
             this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.txtReturningCode);
+            this.Controls.Add(this.txtPIN);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtPort);
             this.Controls.Add(this.txtIP);
@@ -164,7 +164,7 @@
         private System.Windows.Forms.TextBox txtIP;
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtReturningCode;
+        private System.Windows.Forms.TextBox txtPIN;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Button btnJoinGroup;
     }

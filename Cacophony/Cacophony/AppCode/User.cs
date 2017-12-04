@@ -10,6 +10,14 @@ namespace Cacophony.AppCode
     {
         private int userID;
         private string alias;
+        private string pin;
+
+        public User(int userID, string alias, string pin)
+        {
+            this.userID = userID;
+            this.alias = alias;
+            this.pin = pin;
+        }
 
         public int UserID
         {
@@ -32,6 +40,18 @@ namespace Cacophony.AppCode
             set
             {
                 alias = value;
+            }
+        }
+
+        public string PIN
+        {
+            get
+            {
+                return pin;
+            }
+            set
+            {
+                pin = value;
             }
         }
     }

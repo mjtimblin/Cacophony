@@ -19,6 +19,36 @@ namespace Cacophony.AppCode
             this.fileExtension = fileExtension;
         }
 
+        public ImageMessage(int userID, int imageID, DateTime postDate, byte[] imageData, string fileExtension) : base(userID, imageID, postDate)
+        {
+            this.imageData = imageData;
+            this.fileExtension = fileExtension;
+        }
+
+        public byte[] ImageData
+        {
+            get
+            {
+                return imageData;
+            }
+            set
+            {
+                imageData = value;
+            }
+        }
+
+        public string FileExtension
+        {
+            get
+            {
+                return fileExtension;
+            }
+            set
+            {
+                fileExtension = value;
+            }
+        }
+
         //Function to return image.
     }
 }

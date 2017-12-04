@@ -11,7 +11,7 @@ namespace Cacophony.AppCode
     [Serializable]
     public abstract class Message
     {
-        protected int messageID;
+        protected int textID;
 
         protected DateTime postDate;
 
@@ -27,7 +27,7 @@ namespace Cacophony.AppCode
         {
             this.userID = userID;
             this.postDate = postDate;
-            this.messageID = messageID;
+            this.textID = messageID;
         }
 
         public int UserID

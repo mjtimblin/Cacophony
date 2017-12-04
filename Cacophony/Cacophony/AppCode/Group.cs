@@ -35,6 +35,14 @@ namespace Cacophony.AppCode
             this.owner = owner;
         }
 
+        public Group(string groupName, string password, int port)
+        {
+            //this.groupID = InsertGroup(); //Should return the groupID for the group
+            this.groupName = groupName;
+            this.password = password;
+            this.port = port;
+        }
+
         public int GroupID
         {
             get
