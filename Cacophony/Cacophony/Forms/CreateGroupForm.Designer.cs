@@ -110,6 +110,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CreateGroupForm";
             this.Text = "CreateGroupForm";
+            this.Load += new System.EventHandler(this.CreateGroupForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -34,7 +34,7 @@ namespace Cacophony.AppCode
 
         private bool Login(string password)
         {
-            Message request = new CommandMessage(user.UserID, CommandType.ValidateAttempt, password + "|" + user.Username);//Might need to change format
+            Message request = new CommandMessage(user.UserID, CommandType.ValidateAttempt, password + "|" + user.Alias);//Might need to change format
             SendToServer(request);
             NetworkStream networkStream = clientSocket.GetStream();
             networkStream.ReadTimeout = 5000;
