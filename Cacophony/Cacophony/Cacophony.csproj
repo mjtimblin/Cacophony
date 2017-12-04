@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AppCode\Client.cs" />
     <Compile Include="AppCode\CommandMessage.cs" />
+    <Compile Include="AppCode\DatabaseHelper.cs" />
     <Compile Include="AppCode\Group.cs" />
     <Compile Include="AppCode\ImageMessage.cs" />
     <Compile Include="AppCode\Message.cs" />
