@@ -78,12 +78,13 @@ namespace Cacophony.AppCode
             else if (mes is CommandMessage)
             {
                 CommandMessage command = (CommandMessage)mes;
-                if(command.type == CommandType.ValidateAttempt)
+                if (command.type == CommandType.ValidateAttempt)
                 {
                     var content = command.content.Split('|');
-                    if(content[0] == group.Password)
+                    if (content[0] == group.Password)
                     {
-                        //Check if command.UserID is a user in DB
+                        DatabaseHelper.SelectUser(content[1], content[2], group.GroupID);
+                        //Check if alias and PIN are in the data base for the group.
                         //If not, add user to database and return userID
                         CommandMessage response = new CommandMessage(0, CommandType.ValidateConfirm, "true|userID");
                         SendToClient(response, cc);

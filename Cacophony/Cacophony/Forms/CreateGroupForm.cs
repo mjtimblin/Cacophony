@@ -14,6 +14,8 @@ namespace Cacophony.Forms
 {
     public partial class CreateGroupForm : Form
     {
+        private List<Group> existingGroups;
+
         public CreateGroupForm()
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace Cacophony.Forms
                 return;
             }
             int portNum;
-            if(string.IsNullOrWhiteSpace(txtPort.Text) || !int.TryParse(txtPort.Text, out portNum) || portNum < 0 || portNum > 9999)
+            if (string.IsNullOrWhiteSpace(txtPort.Text) || !int.TryParse(txtPort.Text, out portNum) || portNum < 0 || portNum > 9999)
             {
                 MessageBox.Show("Invalid Port!");
                 return;
@@ -36,10 +38,13 @@ namespace Cacophony.Forms
 
             //Check if group exists in database, or create a new group.
             Group group = null;
-            //group = SelectGroupByID(cbxGroupName.SelectedItem);  Should return a group object or null if doesnt exist
-            if(group == null)
+            var matchingGroup = existingGroups.Where(g => g.GroupID == int.Parse(cbxGroupName.Text.Split('|')[1])).ToList<Group>();
+            if (matchingGroup.Count > 0)//).Select(g => g.GroupID.ToString()).ToList<string>().Contains(cbxGroupName.Text.Split('|')[1]))
+                group = matchingGroup[0];
+            if (group == null)
             {
-                group = new Group(cbxGroupName.Text, txtPassword.Text, portNum);
+                DatabaseHelper.InsertGroup(new Group(cbxGroupName.Text, txtPassword.Text, portNum));
+                //DatabaseHelper.InsertUser(new User())
             }
 
             this.Hide();
@@ -58,9 +63,11 @@ namespace Cacophony.Forms
         private void CreateGroupForm_Load(object sender, EventArgs e)
         {
             //Populate ComboBox with all groups in the database.
-            //string[] groups= null;
-            //groups = SelectAllGroups();
-            //cbxGroupName.Items.AddRange(groups);
+            string[] groups = null;
+            existingGroups = DatabaseHelper.SelectAllGroups();
+            groups = existingGroups.Select(g => g.GroupName.ToString() + "|" + g.GroupID).ToArray();
+            if (groups.Length != 0)
+                cbxGroupName.Items.AddRange(groups);
         }
     }
 }
