@@ -109,25 +109,23 @@ namespace Cacophony.AppCode
             return groupId;
         }
 
-        public static int InsertTextMessage(TextMessage message, Group group)
+        public static void InsertTextMessage(TextMessage message, int groupID)
       {
-         int messageId = -1;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "INSERT INTO TextMessages (GroupID, UserID, PostDate, Content) OUTPUT TextID VALUES (@GroupID, @UserID, @PostDate, @Content)";
+         string QueryText = "INSERT INTO TextMessages (GroupID, UserID, PostDate, Content) VALUES (@GroupID, @UserID, @PostDate, @Content)";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
             try
             {
-               OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Users", connect);
                command.Connection = connect;
-               command.Parameters.AddWithValue("@GroupID", group.GroupID);
+               command.Parameters.AddWithValue("@GroupID", groupID);
                command.Parameters.AddWithValue("@UserID", message.UserID);
-               command.Parameters.AddWithValue("@PostDate", message.PostDate);
+               command.Parameters.AddWithValue("@PostDate", message.PostDate.ToString());
                command.Parameters.AddWithValue("@Content", message.Content);
 
-               messageId = (int)command.ExecuteScalar();
+               command.ExecuteNonQuery();
                connect.Close();
             }
             catch (Exception ex)
@@ -136,15 +134,13 @@ namespace Cacophony.AppCode
                connect.Close();
             }
          }
-         return messageId;
       }
 
-      public static int InsertImageMessage(ImageMessage message, Group group)
+      public static void InsertImageMessage(ImageMessage message, int groupID)
       {
-         int messageId = -1;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "INSERT INTO ImageMessages (GroupID, UserID, PostDate, ImageData, FileExt) OUTPUT ImageID VALUES (@GroupID, @UserID, @PostDate, @ImageData, @FileExt)";
+         string QueryText = "INSERT INTO ImageMessages (GroupID, UserID, PostDate, ImageData, FileExt) VALUES (@GroupID, @UserID, @PostDate, @ImageData, @FileExt)";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -152,13 +148,13 @@ namespace Cacophony.AppCode
             {
                OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Users", connect);
                command.Connection = connect;
-               command.Parameters.AddWithValue("@GroupID", group.GroupID);
+               command.Parameters.AddWithValue("@GroupID", groupID);
                command.Parameters.AddWithValue("@UserID", message.UserID);
-               command.Parameters.AddWithValue("@PostDate", message.PostDate);
+               command.Parameters.AddWithValue("@PostDate", message.PostDate.ToString());
                command.Parameters.AddWithValue("@ImageData", Convert.ToBase64String(message.ImageData));
                command.Parameters.AddWithValue("@FileExt", message.FileExtension);
 
-               messageId = (int)command.ExecuteScalar();
+               command.ExecuteNonQuery();
                connect.Close();
             }
             catch (Exception ex)
@@ -167,7 +163,6 @@ namespace Cacophony.AppCode
                connect.Close();
             }
          }
-         return messageId;
       }
 
       public static User SelectUserById(int userId)
@@ -188,7 +183,8 @@ namespace Cacophony.AppCode
                {
                   user = new User(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString());
                }
-               connect.Close();
+                    reader.Close();
+                    connect.Close();
             }
             catch (Exception ex)
             {
@@ -218,7 +214,7 @@ namespace Cacophony.AppCode
                {
                   user = new User(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString());
                }
-                reader.Close();
+               reader.Close();
                connect.Close();
             }
             catch (Exception ex)
@@ -256,7 +252,8 @@ namespace Cacophony.AppCode
                         ownerId = int.Parse(reader[4].ToString());
                   groups.Add(new Group(groupId, groupName, password, moderatorList, ownerId));
                }
-               connect.Close();
+                    reader.Close();
+                    connect.Close();
             }
             catch (Exception ex)
             {
@@ -290,7 +287,8 @@ namespace Cacophony.AppCode
 
                   messages.Add(new TextMessage(userId, textId, postDate, content));
                }
-               connect.Close();
+                    reader.Close();
+                    connect.Close();
             }
             catch (Exception ex)
             {
@@ -325,7 +323,8 @@ namespace Cacophony.AppCode
 
                   messages.Add(new ImageMessage(userId, imageId, postDate, imageData, fileExt));
                }
-               connect.Close();
+                    reader.Close();
+                    connect.Close();
             }
             catch (Exception ex)
             {

@@ -59,7 +59,7 @@ namespace Cacophony.Forms
                 var response = AppCode.Message.DeserializeMessage(bytesFrom);
                 if (response is CommandMessage && ((CommandMessage)response).type == AppCode.CommandType.ValidateConfirm)
                 {
-                    var serverResponse = ((CommandMessage)response).content.Split('|');
+                    var serverResponse = ((CommandMessage)response).content.ToString().Split('|');
                     if (serverResponse[0] == "false")
                         MessageBox.Show("Wrong password or PIN.");
                     else

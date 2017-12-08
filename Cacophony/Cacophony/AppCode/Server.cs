@@ -19,6 +19,8 @@ namespace Cacophony.AppCode
 
         private TcpListener clientListener;
 
+        private List<ClientConnection> clients = new List<ClientConnection>();
+
         public static int PORT = 5764;
 
         public bool StartServer()
@@ -41,6 +43,7 @@ namespace Cacophony.AppCode
                 cc.TcpC = clientSocket;
                 cc.ListeningThread = new Thread(() => ListenToClient(cc));
                 cc.ListeningThread.Start();
+                clients.Add(cc);
             }
         }
 
@@ -50,13 +53,21 @@ namespace Cacophony.AppCode
             try
             {
                 NetworkStream networkStream = cc.TcpC.GetStream();
-                while (true)
+                while (cc.active)
                 {
-                    byte[] bytesFrom = new byte[10025];
-                    networkStream.Read(bytesFrom, 0, 10025);
-                    var mes = Message.DeserializeMessage(bytesFrom);
+                    byte[] bytesFrom = new byte[100000];
+                    //List<byte> bytes = new List<byte>();
+                    //do
+                    //{
+                    //    networkStream.Read(bytesFrom, 0, 10025);
+                    //    bytes.AddRange(bytesFrom);
+                    //    bytesFrom = new byte[10025];
+                    //} while (networkStream.DataAvailable);
+                    networkStream.Read(bytesFrom, 0, 100000);
+                    var mes = Message.DeserializeMessage(bytesFrom);//bytes.ToArray());
                     HandleClientMessage(mes, cc);
                 }
+                clients.Remove(cc);
             }
             catch (Exception ex)
             {
@@ -70,11 +81,15 @@ namespace Cacophony.AppCode
         {
             if (mes is TextMessage)
             {
-                Console.WriteLine("text");
+                TextMessage textMessage = (TextMessage)mes;
+                DatabaseHelper.InsertTextMessage(textMessage, group.GroupID);
+                parentForm.Log("Text Message from " + textMessage.UserID + ": " + textMessage.Content);
             }
             else if (mes is ImageMessage)
             {
-                Console.WriteLine("image");
+                ImageMessage img = (ImageMessage)mes;
+                DatabaseHelper.InsertImageMessage(img, group.GroupID);
+                parentForm.Log("Image Message from " + img.UserID);
             }
             else if (mes is CommandMessage)
             {
@@ -82,13 +97,29 @@ namespace Cacophony.AppCode
                 if (command.type == CommandType.ValidateAttempt)
                     CmdValidateAttempt(command, cc);
                 else if (command.type == CommandType.Ping)
-                    parentForm.Log(command.content);
+                    parentForm.Log(command.content.ToString());
+                else if (command.type == CommandType.RequestMessages)
+                    CmdReturnMessages(command, cc);
             }
+        }
+
+        private void CmdReturnMessages(CommandMessage cmd, ClientConnection cc)
+        {
+            var textMessages = DatabaseHelper.SelectAllTextMessages(group.GroupID);
+            var imageMessages = DatabaseHelper.SelectAllImageMessages(group.GroupID);
+            List<Message> allMessages = new List<Message>();
+            foreach (var text in textMessages)
+                allMessages.Add(text);
+            foreach (var image in imageMessages)
+                allMessages.Add(image);
+
+            CommandMessage response = new CommandMessage(-1, CommandType.RequestMessages, allMessages);
+            SendToClient(response, cc);
         }
 
         private void CmdValidateAttempt(CommandMessage cmd, ClientConnection cc)
         {
-            var content = cmd.content.Split('|');
+            var content = cmd.content.ToString().Split('|');
             if (content[0] == group.Password)
             {
                 var user = DatabaseHelper.SelectUser(content[1], group.GroupID);
@@ -96,26 +127,27 @@ namespace Cacophony.AppCode
                 if (user == null)
                 {
                     userID = DatabaseHelper.InsertUser(content[1], group.GroupID, content[2]);
-                    CommandMessage success = new CommandMessage(0, CommandType.ValidateConfirm, "true|" + userID);
+                    CommandMessage success = new CommandMessage(-1, CommandType.ValidateConfirm, "true|" + userID);
                     SendToClient(success, cc);
                 }
                 else if (user.PIN != content[2])
                 {
-                    CommandMessage fail = new CommandMessage(0, CommandType.ValidateConfirm, "false|-1");
+                    CommandMessage fail = new CommandMessage(-1, CommandType.ValidateConfirm, "false|-1");
                     SendToClient(fail, cc);
                 }
                 else
                 {
                     userID = user.UserID;
-                    CommandMessage success = new CommandMessage(0, CommandType.ValidateConfirm, "true|" + userID);
+                    CommandMessage success = new CommandMessage(-1, CommandType.ValidateConfirm, "true|" + userID);
                     SendToClient(success, cc);
                 }
             }
             else
             {
-                CommandMessage fail = new CommandMessage(0, CommandType.ValidateConfirm, "false|-1");
+                CommandMessage fail = new CommandMessage(-1, CommandType.ValidateConfirm, "false|-1");
                 SendToClient(fail, cc);
             }
+            cc.active = false;
         }
 
         //Sends a message to a client.
@@ -142,9 +174,9 @@ namespace Cacophony.AppCode
         }
     }
 
-    struct ClientConnection
+    class ClientConnection
     {
-        public User Client;
+        public bool active = true;
         public Thread ListeningThread;
         public TcpClient TcpC;
     }

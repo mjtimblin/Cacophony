@@ -33,11 +33,11 @@ namespace Cacophony.AppCode
             while (true)
             {
                 NetworkStream networkStream = clientSocket.GetStream();
-                byte[] bytesFrom = new byte[10025];
-                networkStream.Read(bytesFrom, 0, 10025);
+                byte[] bytesFrom = new byte[100000];
+                networkStream.Read(bytesFrom, 0, 100000);
                 var mes = Message.DeserializeMessage(bytesFrom);
 
-                //HandleServerMessage(mes);
+                HandleServerMessage(mes);
             }
         }
 
@@ -48,6 +48,36 @@ namespace Cacophony.AppCode
             networkStream.Write(outStream, 0, outStream.Length);
             networkStream.Flush();
             //txtMessage.Text = "";
+        }
+
+        private void HandleServerMessage(Message message)
+        {
+            if(message is CommandMessage)
+            {
+                CommandMessage cmd = (CommandMessage)message;
+                if(cmd.type == CommandType.RequestMessages)
+                {
+                    var mesList = (List<Message>)cmd.content;
+                }
+            }
+        }
+
+        public void SendTextMessage(string text)
+        {
+            TextMessage message = new TextMessage(user.UserID, text);
+            SendToServer(message);
+        }
+
+        public void RequestMessages()
+        {
+            CommandMessage cmd = new CommandMessage(user.UserID, CommandType.RequestMessages, "temp");
+            SendToServer(cmd);
+        }
+
+        public void SendImage(byte[] imageData, string fileExtension)
+        {
+            ImageMessage img = new ImageMessage(user.UserID, imageData, fileExtension);
+            SendToServer(img);
         }
     }
 }

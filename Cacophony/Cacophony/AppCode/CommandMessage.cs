@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Cacophony.AppCode
 {
-    public enum CommandType {Test, ValidateAttempt, ValidateConfirm, Ping};
+    public enum CommandType {Test, ValidateAttempt, ValidateConfirm, Ping, CloseConnection, RequestMessages};
 
     [Serializable]
     public class CommandMessage : Message
     {
         public CommandType type;
 
-        public string content;
+        public object content;
 
-        public CommandMessage(int userID, CommandType type, string content) : base(userID)
+        public CommandMessage(int userID, CommandType type, object content) : base(userID)
         {
             this.type = type;
             this.content = content;
