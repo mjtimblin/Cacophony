@@ -29,13 +29,7 @@ namespace Cacophony.Forms
                 MessageBox.Show("Group name cannot be empty!");
                 return;
             }
-            int portNum;
-            if (string.IsNullOrWhiteSpace(txtPort.Text) || !int.TryParse(txtPort.Text, out portNum) || portNum < 0 || portNum > 9999)
-            {
-                MessageBox.Show("Invalid Port!");
-                return;
-            }
-            var group = new Group(txtGroup.Text, txtPassword.Text, portNum);
+            var group = new Group(txtGroup.Text, txtPassword.Text, Server.PORT);
             var groupID = DatabaseHelper.InsertGroup(group);
             group.GroupID = groupID;
             var userID = DatabaseHelper.InsertUser("owner", groupID, txtPIN.Text);

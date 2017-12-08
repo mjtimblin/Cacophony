@@ -23,6 +23,8 @@ namespace Cacophony.AppCode
             clientSocket.Connect(ip, port);
             serverListener = new Thread(ListenToServer);
             serverListener.Start();
+            CommandMessage cmd = new CommandMessage(user.UserID, CommandType.Ping, user.Alias + " has joined.");
+            SendToServer(cmd);
             return true;
         }
 

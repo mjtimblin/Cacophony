@@ -16,11 +16,11 @@ namespace Cacophony.Forms
     {
         public Client client;
 
-        public ClientChatForm(User user, string IP, int port)
+        public ClientChatForm(User user, string IP)
         {
             this.client = new Client();
             client.parentForm = this;
-            client.StartClient(IP, port, user);
+            client.StartClient(IP, Server.PORT, user);
             InitializeComponent();
         }
 

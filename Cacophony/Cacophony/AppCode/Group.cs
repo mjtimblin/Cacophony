@@ -93,6 +93,10 @@ namespace Cacophony.AppCode
             {
                 return port;
             }
+            set
+            {
+                port = value;
+            }
         }
 
         public List<int> Moderators

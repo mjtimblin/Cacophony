@@ -19,6 +19,8 @@ namespace Cacophony.AppCode
 
         private TcpListener clientListener;
 
+        public static int PORT = 5764;
+
         public bool StartServer()
         {
             Thread AcceptClientThread = new Thread(AcceptClient);
@@ -38,7 +40,6 @@ namespace Cacophony.AppCode
                 ClientConnection cc = new ClientConnection();
                 cc.TcpC = clientSocket;
                 cc.ListeningThread = new Thread(() => ListenToClient(cc));
-                parentForm.Log("--Client Connected.");
                 cc.ListeningThread.Start();
             }
         }
@@ -79,17 +80,41 @@ namespace Cacophony.AppCode
             {
                 CommandMessage command = (CommandMessage)mes;
                 if (command.type == CommandType.ValidateAttempt)
+                    CmdValidateAttempt(command, cc);
+                else if (command.type == CommandType.Ping)
+                    parentForm.Log(command.content);
+            }
+        }
+
+        private void CmdValidateAttempt(CommandMessage cmd, ClientConnection cc)
+        {
+            var content = cmd.content.Split('|');
+            if (content[0] == group.Password)
+            {
+                var user = DatabaseHelper.SelectUser(content[1], group.GroupID);
+                int userID;
+                if (user == null)
                 {
-                    var content = command.content.Split('|');
-                    if (content[0] == group.Password)
-                    {
-                        DatabaseHelper.SelectUser(content[1], content[2], group.GroupID);
-                        //Check if alias and PIN are in the data base for the group.
-                        //If not, add user to database and return userID
-                        CommandMessage response = new CommandMessage(0, CommandType.ValidateConfirm, "true|userID");
-                        SendToClient(response, cc);
-                    }
+                    userID = DatabaseHelper.InsertUser(content[1], group.GroupID, content[2]);
+                    CommandMessage success = new CommandMessage(0, CommandType.ValidateConfirm, "true|" + userID);
+                    SendToClient(success, cc);
                 }
+                else if (user.PIN != content[2])
+                {
+                    CommandMessage fail = new CommandMessage(0, CommandType.ValidateConfirm, "false|-1");
+                    SendToClient(fail, cc);
+                }
+                else
+                {
+                    userID = user.UserID;
+                    CommandMessage success = new CommandMessage(0, CommandType.ValidateConfirm, "true|" + userID);
+                    SendToClient(success, cc);
+                }
+            }
+            else
+            {
+                CommandMessage fail = new CommandMessage(0, CommandType.ValidateConfirm, "false|-1");
+                SendToClient(fail, cc);
             }
         }
 

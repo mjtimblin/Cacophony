@@ -38,6 +38,7 @@ namespace Cacophony.Forms
                 if (selectedGroup.Length == 0)
                     return;
                 this.Hide();
+                selectedGroup[0].Port = Server.PORT;
                 var serverLog = new ServerForm(selectedGroup[0]);
                 Thread thread = new Thread(ApplicationRunProc);
                 thread.SetApartmentState(ApartmentState.STA);

@@ -24,10 +24,10 @@ namespace Cacophony.Forms
         {
             this.Hide();//Might need to dispose of this better.
             User user = new User(-1, txtUsername.Text, txtPIN.Text);
-            user.UserID = Login(txtIP.Text, int.Parse(txtPort.Text), txtPassword.Text, user);
+            user.UserID = Login(txtIP.Text, txtPassword.Text, user);
             if (user.UserID != -1)
             {
-                var ClientChat = new ClientChatForm(user, txtIP.Text, int.Parse(txtPort.Text));
+                var ClientChat = new ClientChatForm(user, txtIP.Text);
                 Thread thread = new Thread(ApplicationRunProc);
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.IsBackground = true;
@@ -37,10 +37,10 @@ namespace Cacophony.Forms
                 MessageBox.Show("Something went wrong!");
         }
 
-        private int Login(string ip, int port, string password, User user)
+        private int Login(string ip, string password, User user)
         {
             var clientSocket = new System.Net.Sockets.TcpClient();
-            clientSocket.Connect(ip, port);
+            clientSocket.Connect(ip, Server.PORT);
             AppCode.Message request = new CommandMessage(user.UserID, AppCode.CommandType.ValidateAttempt, password + "|" + user.Alias + "|" + user.PIN);//Might need to change format
 
             //Send password attempt
@@ -59,9 +59,13 @@ namespace Cacophony.Forms
                 var response = AppCode.Message.DeserializeMessage(bytesFrom);
                 if (response is CommandMessage && ((CommandMessage)response).type == AppCode.CommandType.ValidateConfirm)
                 {
-                    //Validate confirmed should also send back the users userID
-                    //user.UserID = response.userID;
-                    return user.UserID;
+                    var serverResponse = ((CommandMessage)response).content.Split('|');
+                    if (serverResponse[0] == "false")
+                        MessageBox.Show("Wrong password or PIN.");
+                    else
+                    {
+                        return int.Parse(serverResponse[1]);
+                    }
                 }
             }
             catch (Exception ex)

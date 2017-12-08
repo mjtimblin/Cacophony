@@ -85,14 +85,13 @@ namespace Cacophony.AppCode
 
             OleDbConnection connect = new OleDbConnection();
             connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-            string QueryText = "UPDATE Groups Set GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password WHERE GroupID = @GroupID";
+            string QueryText = "UPDATE Groups SET GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password WHERE GroupID = " + group.GroupID;
             connect.Open();
             using (OleDbCommand command = new OleDbCommand(QueryText))
             {
                 try
                 {
                     command.Connection = connect;
-                    command.Parameters.AddWithValue("@GroupID", group.GroupID);
                     command.Parameters.AddWithValue("@GroupName", group.GroupName);
                     command.Parameters.AddWithValue("@ModList", modList);
                     command.Parameters.AddWithValue("@OwnerID", group.Owner);
@@ -200,12 +199,12 @@ namespace Cacophony.AppCode
          return user;
       }
 
-      public static User SelectUser(String alias, String pin, int groupId)
+      public static User SelectUser(string alias, int groupId)
       {
          User user = null;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT Users.UserID, Users.Alias, Users.PIN FROM Users WHERE Alias = @Alias AND PIN = @PIN AND GroupID = @GroupID";
+         string QueryText = "SELECT Users.UserID, Users.Alias, Users.PIN FROM Users WHERE Alias = @Alias AND GroupID = @GroupID";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -214,12 +213,12 @@ namespace Cacophony.AppCode
                command.Connection = connect;
                command.Parameters.AddWithValue("@Alias", alias);
                command.Parameters.AddWithValue("@GroupID", groupId);
-               command.Parameters.AddWithValue("@PIN", pin);
                OleDbDataReader reader = command.ExecuteReader();
                while (reader.Read())
                {
                   user = new User(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString());
                }
+                reader.Close();
                connect.Close();
             }
             catch (Exception ex)
