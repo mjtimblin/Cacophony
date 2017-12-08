@@ -28,5 +28,11 @@ namespace Cacophony.Forms
             var joinForm = new JoinGroupForm();
             joinForm.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var resumeForm = new ResumeGroupForm();
+            resumeForm.Show();
+        }
     }
 }

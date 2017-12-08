@@ -9,7 +9,7 @@ namespace Cacophony.AppCode
 {
     public class Group
     {
-        private int groupID;
+        private int groupID = -1;
         private string groupName;
         private string password;
         private bool isLocked = false;
@@ -48,6 +48,10 @@ namespace Cacophony.AppCode
             get
             {
                 return groupID;
+            }
+            set
+            {
+                groupID = value;
             }
         }
 
@@ -115,6 +119,10 @@ namespace Cacophony.AppCode
             get
             {
                 return owner;
+            }
+            set
+            {
+                owner = value;
             }
         }
     }

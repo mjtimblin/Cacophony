@@ -11,12 +11,13 @@ namespace Cacophony.AppCode
 {
    static class DatabaseHelper
    {
-      public static int InsertUser(User user, int groupID, String pin)
+      public static int InsertUser(string alias, int groupID, String pin)
       {
          int userId = -1;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "INSERT INTO Users (Alias, GroupID, PIN) OUTPUT UserID VALUES (@Alias, @GroupID, @PIN)";
+         string QueryText = "INSERT INTO Users (Alias, GroupID, PIN) VALUES (@Alias, @GroupID, @PIN)";
+         string QueryText2 = "Select @@Identity";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -24,11 +25,13 @@ namespace Cacophony.AppCode
             {
                OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Users", connect);
                command.Connection = connect;
-               command.Parameters.AddWithValue("@Alias", user.Alias);
+               command.Parameters.AddWithValue("@Alias", alias);
                command.Parameters.AddWithValue("@GroupID", groupID);
                command.Parameters.AddWithValue("@PIN", pin);
 
-               userId = (int) command.ExecuteScalar();
+                command.ExecuteNonQuery();
+                command.CommandText = QueryText2;
+                userId = (int) command.ExecuteScalar();
                connect.Close();
             }
             catch (Exception ex)
@@ -47,21 +50,23 @@ namespace Cacophony.AppCode
 
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "INSERT INTO Groups (GroupName, ModList, OwnerID, Password)  VALUES (@GroupName, @ModList, @OwnerID, @Password)";
+         string QueryText = "INSERT INTO Groups (GroupName, ModList, OwnerID, [Password]) VALUES (@GroupName, @ModList, @OwnerID, @Password)";
+         string QueryText2 = "Select @@Identity";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))//OUTPUT GroupID
             {
             try
             {
-               OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Groups", connect);
+               //OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Groups", connect);
                command.Connection = connect;
                command.Parameters.AddWithValue("@GroupName", group.GroupName);
                command.Parameters.AddWithValue("@ModList", modList);
                command.Parameters.AddWithValue("@OwnerID", group.Owner);
                command.Parameters.AddWithValue("@Password", group.Password);
 
-                    command.ExecuteNonQuery();
-               //groupId = (int)command.ExecuteScalar();
+               command.ExecuteNonQuery();
+               command.CommandText = QueryText2;
+               groupId = (int)command.ExecuteScalar();
                connect.Close();
             }
             catch (Exception ex)
@@ -73,7 +78,39 @@ namespace Cacophony.AppCode
          return groupId;
       }
 
-      public static int InsertTextMessage(TextMessage message, Group group)
+        public static int UpdateGroup(Group group)
+        {
+            int groupId = -1;
+            String modList = string.Join(",", group.Moderators);
+
+            OleDbConnection connect = new OleDbConnection();
+            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+            string QueryText = "UPDATE Groups Set GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password WHERE GroupID = @GroupID";
+            connect.Open();
+            using (OleDbCommand command = new OleDbCommand(QueryText))
+            {
+                try
+                {
+                    command.Connection = connect;
+                    command.Parameters.AddWithValue("@GroupID", group.GroupID);
+                    command.Parameters.AddWithValue("@GroupName", group.GroupName);
+                    command.Parameters.AddWithValue("@ModList", modList);
+                    command.Parameters.AddWithValue("@OwnerID", group.Owner);
+                    command.Parameters.AddWithValue("@Password", group.Password);
+
+                    command.ExecuteNonQuery();
+                    connect.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    connect.Close();
+                }
+            }
+            return groupId;
+        }
+
+        public static int InsertTextMessage(TextMessage message, Group group)
       {
          int messageId = -1;
          OleDbConnection connect = new OleDbConnection();

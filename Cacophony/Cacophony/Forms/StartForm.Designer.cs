@@ -30,11 +30,12 @@
         {
             this.btnCreateGroup = new System.Windows.Forms.Button();
             this.btnJoinGroup = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCreateGroup
             // 
-            this.btnCreateGroup.Location = new System.Drawing.Point(39, 52);
+            this.btnCreateGroup.Location = new System.Drawing.Point(12, 12);
             this.btnCreateGroup.Name = "btnCreateGroup";
             this.btnCreateGroup.Size = new System.Drawing.Size(102, 23);
             this.btnCreateGroup.TabIndex = 0;
@@ -44,7 +45,7 @@
             // 
             // btnJoinGroup
             // 
-            this.btnJoinGroup.Location = new System.Drawing.Point(147, 52);
+            this.btnJoinGroup.Location = new System.Drawing.Point(12, 86);
             this.btnJoinGroup.Name = "btnJoinGroup";
             this.btnJoinGroup.Size = new System.Drawing.Size(102, 23);
             this.btnJoinGroup.TabIndex = 1;
@@ -52,11 +53,22 @@
             this.btnJoinGroup.UseVisualStyleBackColor = true;
             this.btnJoinGroup.Click += new System.EventHandler(this.btnJoinGroup_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 50);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Resume Group";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 121);
+            this.ClientSize = new System.Drawing.Size(131, 121);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnJoinGroup);
             this.Controls.Add(this.btnCreateGroup);
             this.Name = "StartForm";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button btnCreateGroup;
         private System.Windows.Forms.Button btnJoinGroup;
+        private System.Windows.Forms.Button button1;
     }
 }

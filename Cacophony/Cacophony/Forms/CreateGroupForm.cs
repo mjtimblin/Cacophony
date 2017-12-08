@@ -24,7 +24,7 @@ namespace Cacophony.Forms
         private void btnCreateGroup_Click(object sender, EventArgs e)
         {
             //Error Checking
-            if (string.IsNullOrWhiteSpace(cbxGroupName.Text))
+            if (string.IsNullOrWhiteSpace(txtGroup.Text))
             {
                 MessageBox.Show("Group name cannot be empty!");
                 return;
@@ -35,17 +35,12 @@ namespace Cacophony.Forms
                 MessageBox.Show("Invalid Port!");
                 return;
             }
-
-            //Check if group exists in database, or create a new group.
-            Group group = null;
-            var matchingGroup = existingGroups.Where(g => g.GroupID == int.Parse(cbxGroupName.Text.Split('|')[1])).ToList<Group>();
-            if (matchingGroup.Count > 0)//).Select(g => g.GroupID.ToString()).ToList<string>().Contains(cbxGroupName.Text.Split('|')[1]))
-                group = matchingGroup[0];
-            if (group == null)
-            {
-                DatabaseHelper.InsertGroup(new Group(cbxGroupName.Text, txtPassword.Text, portNum));
-                //DatabaseHelper.InsertUser(new User())
-            }
+            var group = new Group(txtGroup.Text, txtPassword.Text, portNum);
+            var groupID = DatabaseHelper.InsertGroup(group);
+            group.GroupID = groupID;
+            var userID = DatabaseHelper.InsertUser("owner", groupID, txtPIN.Text);
+            group.Owner = userID;
+            DatabaseHelper.UpdateGroup(group);
 
             this.Hide();
             var serverLog = new ServerForm(group);
@@ -60,14 +55,5 @@ namespace Cacophony.Forms
             Application.Run(state as Form);
         }
 
-        private void CreateGroupForm_Load(object sender, EventArgs e)
-        {
-            //Populate ComboBox with all groups in the database.
-            string[] groups = null;
-            existingGroups = DatabaseHelper.SelectAllGroups();
-            groups = existingGroups.Select(g => g.GroupName.ToString() + "|" + g.GroupID).ToArray();
-            if (groups.Length != 0)
-                cbxGroupName.Items.AddRange(groups);
-        }
     }
 }
