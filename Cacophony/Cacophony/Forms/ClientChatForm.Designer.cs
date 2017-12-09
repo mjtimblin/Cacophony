@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.btnSendMessage = new System.Windows.Forms.Button();
             this.btnGetMessages = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tlpChatLog = new System.Windows.Forms.TableLayoutPanel();
+            this.RefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txtMessage
@@ -84,6 +86,12 @@
             this.tlpChatLog.Size = new System.Drawing.Size(439, 413);
             this.tlpChatLog.TabIndex = 6;
             // 
+            // RefreshTimer
+            // 
+            this.RefreshTimer.Enabled = true;
+            this.RefreshTimer.Interval = 3000;
+            this.RefreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
+            // 
             // ClientChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,5 +118,6 @@
         private System.Windows.Forms.Button btnGetMessages;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TableLayoutPanel tlpChatLog;
+        private System.Windows.Forms.Timer RefreshTimer;
     }
 }

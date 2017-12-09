@@ -56,13 +56,6 @@ namespace Cacophony.AppCode
                 while (cc.active)
                 {
                     byte[] bytesFrom = new byte[100000];
-                    //List<byte> bytes = new List<byte>();
-                    //do
-                    //{
-                    //    networkStream.Read(bytesFrom, 0, 10025);
-                    //    bytes.AddRange(bytesFrom);
-                    //    bytesFrom = new byte[10025];
-                    //} while (networkStream.DataAvailable);
                     networkStream.Read(bytesFrom, 0, 100000);
                     var mes = Message.DeserializeMessage(bytesFrom);//bytes.ToArray());
                     HandleClientMessage(mes, cc);
@@ -105,8 +98,8 @@ namespace Cacophony.AppCode
 
         private void CmdReturnMessages(CommandMessage cmd, ClientConnection cc)
         {
-            var textMessages = DatabaseHelper.SelectAllTextMessages(group.GroupID);
-            var imageMessages = DatabaseHelper.SelectAllImageMessages(group.GroupID);
+            var textMessages = DatabaseHelper.SelectAllTextMessages(group.GroupID, (DateTime)cmd.content);
+            var imageMessages = DatabaseHelper.SelectAllImageMessages(group.GroupID, (DateTime)cmd.content);
             List<Message> allMessages = new List<Message>();
             allMessages.AddRange(textMessages);
             allMessages.AddRange(imageMessages);

@@ -29,11 +29,16 @@ namespace Cacophony.Forms
         private void ClientChatForm_Load(object sender, EventArgs e)
         {
             this.Show();
+            client.RequestMessages();
         }
 
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
-            client.SendTextMessage(txtMessage.Text);
+			if(txtMessage.Text.StartsWith("/"))
+                client.SendCommandMessage(txtMessage.Text);
+            else
+                client.SendTextMessage(txtMessage.Text);
+            client.RequestMessages();
         }
 
         private void btnGetMessages_Click(object sender, EventArgs e)
@@ -66,6 +71,16 @@ namespace Cacophony.Forms
                 return;
             }
             tlpChatLog.Controls.Clear();
+        }
+		
+		public void PromptUser(string message)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(PromptUser), new object[] { message });
+                return;
+            }
+            MessageBox.Show(message);
         }
 
         public void ShowMessage(AppCode.Message message)
@@ -116,6 +131,11 @@ namespace Cacophony.Forms
                     tlpChatLog.Controls.Add(panel);
                 }
             }
+        }
+
+        private void RefreshTimer_Tick(object sender, EventArgs e)
+        {
+            client.RequestMessages();
         }
     }
 }

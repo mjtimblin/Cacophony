@@ -14,6 +14,7 @@ namespace Cacophony.AppCode
         private TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         private Thread serverListener;
         private User user;
+        private DateTime lastUpdate = new DateTime();
 
         public ClientChatForm parentForm;
 
@@ -57,7 +58,6 @@ namespace Cacophony.AppCode
                 CommandMessage cmd = (CommandMessage)message;
                 if(cmd.type == CommandType.RequestMessages)
                 {
-                    parentForm.ClearChatLog();
                     var mesList = (Message[])cmd.content;
                     foreach (var mes in mesList)
                         parentForm.ShowMessage(mes);
@@ -69,11 +69,14 @@ namespace Cacophony.AppCode
         {
             TextMessage message = new TextMessage(user.UserID, user.Alias, text);
             SendToServer(message);
+
         }
 
         public void RequestMessages()
         {
-            CommandMessage cmd = new CommandMessage(user.UserID, user.Alias, CommandType.RequestMessages, "temp");
+            CommandMessage cmd = new CommandMessage(user.UserID, user.Alias, CommandType.RequestMessages, lastUpdate);
+            lastUpdate = DateTime.UtcNow;
+            lastUpdate = new DateTime(lastUpdate.Year, lastUpdate.Month, lastUpdate.Day, lastUpdate.Hour, lastUpdate.Minute, lastUpdate.Second, lastUpdate.Kind);
             SendToServer(cmd);
         }
 
@@ -81,6 +84,37 @@ namespace Cacophony.AppCode
         {
             ImageMessage img = new ImageMessage(user.UserID, user.Alias, imageData, fileExtension);
             SendToServer(img);
+        }
+
+        public void SendCommandMessage(string command)
+        {
+            try
+            {
+                var values = command.Remove(0,1).Split(' ');
+                CommandMessage cmd;
+                if (values[0] == "promote")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Promote, values[1]);
+                else if (values[0] == "demote")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Demote, values[1]);
+                else if (values[0] == "lock")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Lock, values[1]);
+                else if (values[0] == "setpassword")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetPassword, values[1]);
+                else if (values[0] == "setname")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetDisplayName, values[1]);
+                else if (values[0] == "delete")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, values[1]);
+                else if (values[0] == "ban")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ban, values[1]);
+                else if (values[0] == "pin")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Pin, values[1] + "|" + values[2]);
+                else if (values[0] == "announce")
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetGroupAnnouncements, values[1]);
+            }
+            catch(Exception ex)
+            {
+                parentForm.PromptUser("Improper command format!");
+            }
         }
     }
 }
