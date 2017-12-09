@@ -41,7 +41,7 @@ namespace Cacophony.Forms
         {
             var clientSocket = new System.Net.Sockets.TcpClient();
             clientSocket.Connect(ip, Server.PORT);
-            AppCode.Message request = new CommandMessage(user.UserID, AppCode.CommandType.ValidateAttempt, password + "|" + user.Alias + "|" + user.PIN);//Might need to change format
+            AppCode.Message request = new CommandMessage(user.UserID, user.Alias, AppCode.CommandType.ValidateAttempt, password + "|" + user.Alias + "|" + user.PIN);//Might need to change format
 
             //Send password attempt
             NetworkStream networkStream = clientSocket.GetStream();

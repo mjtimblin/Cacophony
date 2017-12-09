@@ -15,7 +15,7 @@ namespace Cacophony.AppCode
 
         public object content;
 
-        public CommandMessage(int userID, CommandType type, object content) : base(userID)
+        public CommandMessage(int userID, string userAlias, CommandType type, object content) : base(userID, userAlias)
         {
             this.type = type;
             this.content = content;

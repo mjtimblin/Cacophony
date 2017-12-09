@@ -32,7 +32,7 @@
             this.btnSendMessage = new System.Windows.Forms.Button();
             this.btnGetMessages = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpChatLog = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // txtMessage
@@ -72,24 +72,24 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tableLayoutPanel1
+            // tlpChatLog
             // 
-            this.tableLayoutPanel1.AutoScroll = true;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 13);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(322, 189);
-            this.tableLayoutPanel1.TabIndex = 6;
+            this.tlpChatLog.AutoScroll = true;
+            this.tlpChatLog.ColumnCount = 1;
+            this.tlpChatLog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpChatLog.Location = new System.Drawing.Point(13, 13);
+            this.tlpChatLog.Name = "tlpChatLog";
+            this.tlpChatLog.RowCount = 1;
+            this.tlpChatLog.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpChatLog.Size = new System.Drawing.Size(320, 189);
+            this.tlpChatLog.TabIndex = 6;
             // 
             // ClientChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 286);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.tlpChatLog);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnGetMessages);
             this.Controls.Add(this.btnSendMessage);
@@ -107,6 +107,6 @@
         private System.Windows.Forms.Button btnSendMessage;
         private System.Windows.Forms.Button btnGetMessages;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tlpChatLog;
     }
 }

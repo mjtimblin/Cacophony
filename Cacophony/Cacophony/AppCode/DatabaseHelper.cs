@@ -269,7 +269,7 @@ namespace Cacophony.AppCode
          List<TextMessage> messages = new List<TextMessage>();
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT TextMessages.TextID, TextMessages.UserID, TextMessages.PostDate, TextMessages.Content FROM TextMessages WHERE GroupID = @GroupID";
+         string QueryText = "SELECT TextMessages.TextID, TextMessages.UserID, TextMessages.PostDate, TextMessages.Content, Users.Alias FROM TextMessages INNER JOIN Users ON Users.UserID = TextMessages.UserID WHERE TextMessages.GroupID = @GroupID";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -284,8 +284,9 @@ namespace Cacophony.AppCode
                   int userId = int.Parse(reader[1].ToString());
                   DateTime postDate = DateTime.Parse(reader[2].ToString());
                   String content = reader[3].ToString();
+                        string userAlias = reader[4].ToString();
 
-                  messages.Add(new TextMessage(userId, textId, postDate, content));
+                  messages.Add(new TextMessage(userId, userAlias, textId, postDate, content));
                }
                     reader.Close();
                     connect.Close();
@@ -304,7 +305,7 @@ namespace Cacophony.AppCode
          List<ImageMessage> messages = new List<ImageMessage>();
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT ImageMessages.ImageID, ImageMessages.UserID, ImageMessages.PostDate, ImageMessages.ImageData, ImageMessages.FileExt FROM ImageMessages WHERE GroupID = @GroupID";
+         string QueryText = "SELECT ImageMessages.ImageID, ImageMessages.UserID, ImageMessages.PostDate, ImageMessages.ImageData, ImageMessages.FileExt, Users.Alias FROM ImageMessages INNER JOIN Users ON Users.UserID = ImageMessages.UserID WHERE ImageMessages.GroupID = @GroupID";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -320,8 +321,9 @@ namespace Cacophony.AppCode
                   DateTime postDate = DateTime.Parse(reader[2].ToString());
                   byte[] imageData = Convert.FromBase64String(reader[3].ToString());
                   String fileExt = reader[4].ToString();
+                        string userAlias = reader[5].ToString();
 
-                  messages.Add(new ImageMessage(userId, imageId, postDate, imageData, fileExt));
+                  messages.Add(new ImageMessage(userId, userAlias, imageId, postDate, imageData, fileExt));
                }
                     reader.Close();
                     connect.Close();

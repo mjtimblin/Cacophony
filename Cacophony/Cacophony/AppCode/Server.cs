@@ -108,12 +108,9 @@ namespace Cacophony.AppCode
             var textMessages = DatabaseHelper.SelectAllTextMessages(group.GroupID);
             var imageMessages = DatabaseHelper.SelectAllImageMessages(group.GroupID);
             List<Message> allMessages = new List<Message>();
-            foreach (var text in textMessages)
-                allMessages.Add(text);
-            foreach (var image in imageMessages)
-                allMessages.Add(image);
-
-            CommandMessage response = new CommandMessage(-1, CommandType.RequestMessages, allMessages);
+            allMessages.AddRange(textMessages);
+            allMessages.AddRange(imageMessages);
+            CommandMessage response = new CommandMessage(-1, "server", CommandType.RequestMessages, allMessages.OrderBy(m => m.PostDate).ToArray());
             SendToClient(response, cc);
         }
 
@@ -127,24 +124,24 @@ namespace Cacophony.AppCode
                 if (user == null)
                 {
                     userID = DatabaseHelper.InsertUser(content[1], group.GroupID, content[2]);
-                    CommandMessage success = new CommandMessage(-1, CommandType.ValidateConfirm, "true|" + userID);
+                    CommandMessage success = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "true|" + userID);
                     SendToClient(success, cc);
                 }
                 else if (user.PIN != content[2])
                 {
-                    CommandMessage fail = new CommandMessage(-1, CommandType.ValidateConfirm, "false|-1");
+                    CommandMessage fail = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "false|-1");
                     SendToClient(fail, cc);
                 }
                 else
                 {
                     userID = user.UserID;
-                    CommandMessage success = new CommandMessage(-1, CommandType.ValidateConfirm, "true|" + userID);
+                    CommandMessage success = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "true|" + userID);
                     SendToClient(success, cc);
                 }
             }
             else
             {
-                CommandMessage fail = new CommandMessage(-1, CommandType.ValidateConfirm, "false|-1");
+                CommandMessage fail = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "false|-1");
                 SendToClient(fail, cc);
             }
             cc.active = false;

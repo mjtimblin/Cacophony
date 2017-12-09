@@ -13,13 +13,13 @@ namespace Cacophony.AppCode
 
         private string fileExtension;
 
-        public ImageMessage(int userID, byte[] imageData, string fileExtension) : base(userID)
+        public ImageMessage(int userID, string userAlias, byte[] imageData, string fileExtension) : base(userID, userAlias)
         {
             this.imageData = imageData;
             this.fileExtension = fileExtension;
         }
 
-        public ImageMessage(int userID, int imageID, DateTime postDate, byte[] imageData, string fileExtension) : base(userID, imageID, postDate)
+        public ImageMessage(int userID, string userAlias, int imageID, DateTime postDate, byte[] imageData, string fileExtension) : base(userID, userAlias, imageID, postDate)
         {
             this.imageData = imageData;
             this.fileExtension = fileExtension;

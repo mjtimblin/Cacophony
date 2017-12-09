@@ -23,7 +23,7 @@ namespace Cacophony.AppCode
             clientSocket.Connect(ip, port);
             serverListener = new Thread(ListenToServer);
             serverListener.Start();
-            CommandMessage cmd = new CommandMessage(user.UserID, CommandType.Ping, user.Alias + " has joined.");
+            CommandMessage cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ping, user.Alias + " has joined.");
             SendToServer(cmd);
             return true;
         }
@@ -57,26 +57,29 @@ namespace Cacophony.AppCode
                 CommandMessage cmd = (CommandMessage)message;
                 if(cmd.type == CommandType.RequestMessages)
                 {
-                    var mesList = (List<Message>)cmd.content;
+                    parentForm.ClearChatLog();
+                    var mesList = (Message[])cmd.content;
+                    foreach (var mes in mesList)
+                        parentForm.ShowMessage(mes);
                 }
             }
         }
 
         public void SendTextMessage(string text)
         {
-            TextMessage message = new TextMessage(user.UserID, text);
+            TextMessage message = new TextMessage(user.UserID, user.Alias, text);
             SendToServer(message);
         }
 
         public void RequestMessages()
         {
-            CommandMessage cmd = new CommandMessage(user.UserID, CommandType.RequestMessages, "temp");
+            CommandMessage cmd = new CommandMessage(user.UserID, user.Alias, CommandType.RequestMessages, "temp");
             SendToServer(cmd);
         }
 
         public void SendImage(byte[] imageData, string fileExtension)
         {
-            ImageMessage img = new ImageMessage(user.UserID, imageData, fileExtension);
+            ImageMessage img = new ImageMessage(user.UserID, user.Alias, imageData, fileExtension);
             SendToServer(img);
         }
     }

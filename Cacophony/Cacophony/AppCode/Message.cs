@@ -17,17 +17,21 @@ namespace Cacophony.AppCode
 
         protected int userID;
 
-        public Message(int userID)
+        protected string userAlias;
+
+        public Message(int userID, string userAlias)
         {
             this.userID = userID;
             this.postDate = DateTime.UtcNow;
+            this.userAlias = userAlias;
         }
 
-        public Message(int userID, int messageID, DateTime postDate)
+        public Message(int userID, string userAlias, int messageID, DateTime postDate)
         {
             this.userID = userID;
             this.postDate = postDate;
             this.textID = messageID;
+            this.userAlias = userAlias;
         }
 
         public int UserID
@@ -43,6 +47,14 @@ namespace Cacophony.AppCode
             get
             {
                 return postDate;
+            }
+        }
+
+        public string UserAlias
+        {
+            get
+            {
+                return userAlias;
             }
         }
 

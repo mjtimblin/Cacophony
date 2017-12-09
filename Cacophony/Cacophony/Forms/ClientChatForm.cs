@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Cacophony.AppCode;
 using Cacophony.Forms;
 using System.IO;
+using Cacophony.AppCode;
 
 namespace Cacophony.Forms
 {
@@ -54,6 +55,49 @@ namespace Cacophony.Forms
             {
                 var imageArray = File.ReadAllBytes(openFileDialog1.FileName);
                 client.SendImage(imageArray, Path.GetExtension(openFileDialog1.FileName));
+            }
+        }
+
+        public void ClearChatLog()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ClearChatLog));
+                return;
+            }
+            tlpChatLog.Controls.Clear();
+        }
+
+        public void ShowMessage(AppCode.Message message)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<AppCode.Message>(ShowMessage), new object[] { message });
+                return;
+            }
+
+            var panel = new Panel();
+            panel.AutoSize = true;
+            panel.BackColor = Color.Aqua;
+            if (message is TextMessage)
+            {
+                TextMessage text = (TextMessage)message;
+                var lbl = new Label();
+                lbl.Text = message.UserAlias + ":" + Environment.NewLine + text.Content;
+                panel.Controls.Add(lbl);
+                tlpChatLog.Controls.Add(panel);
+            }
+            else if(message is ImageMessage)
+            {
+                ImageMessage image = (ImageMessage)message;
+                var picBox = new PictureBox();
+                using (var ms = new MemoryStream(image.ImageData))
+                {
+                    picBox.Image = Image.FromStream(ms);
+                    picBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    panel.Controls.Add(picBox);
+                    tlpChatLog.Controls.Add(panel);
+                }
             }
         }
     }

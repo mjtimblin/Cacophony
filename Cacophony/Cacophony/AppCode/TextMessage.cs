@@ -10,12 +10,12 @@ namespace Cacophony.AppCode
     public class TextMessage : Message
     {
         private string content;
-        public TextMessage(int userID, string content) : base(userID)
+        public TextMessage(int userID, string userAlias, string content) : base(userID, userAlias )
         {
             this.content = content;
         }
 
-        public TextMessage(int userID, int textID, DateTime postDate, string content) : base(userID, textID, postDate)
+        public TextMessage(int userID, string userAlias, int textID, DateTime postDate, string content) : base(userID,userAlias, textID, postDate)
         {
             this.content = content;
         }
