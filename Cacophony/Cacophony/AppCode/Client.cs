@@ -16,6 +16,8 @@ namespace Cacophony.AppCode
         private User user;
         private DateTime lastUpdate = new DateTime();
 
+        private List<string> recievedMessages = new List<string>();
+
         public ClientChatForm parentForm;
 
         public bool StartClient(string ip, int port, User user)
@@ -34,8 +36,8 @@ namespace Cacophony.AppCode
             while (true)
             {
                 NetworkStream networkStream = clientSocket.GetStream();
-                byte[] bytesFrom = new byte[100000];
-                networkStream.Read(bytesFrom, 0, 100000);
+                byte[] bytesFrom = new byte[3500000];
+                networkStream.Read(bytesFrom, 0, 3500000);
                 var mes = Message.DeserializeMessage(bytesFrom);
 
                 HandleServerMessage(mes);
@@ -60,7 +62,14 @@ namespace Cacophony.AppCode
                 {
                     var mesList = (Message[])cmd.content;
                     foreach (var mes in mesList)
-                        parentForm.ShowMessage(mes);
+                    {
+                        string mesID = ((mes is TextMessage) ? "txt" : "img") + mes.MessageID;
+                        if(!recievedMessages.Contains(mesID))
+                        {
+                            recievedMessages.Add(mesID);
+                            parentForm.ShowMessage(mes);
+                        }
+                    }
                 }
             }
         }

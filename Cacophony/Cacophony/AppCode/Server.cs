@@ -50,28 +50,34 @@ namespace Cacophony.AppCode
         //Validates the client and listens for incoming messages form the client.
         private void ListenToClient(ClientConnection cc)
         {
-            try
+            NetworkStream networkStream = cc.TcpC.GetStream();
+            while (cc.active)
             {
-                NetworkStream networkStream = cc.TcpC.GetStream();
-                while (cc.active)
+                try
                 {
-                    byte[] bytesFrom = new byte[100000];
-                    networkStream.Read(bytesFrom, 0, 100000);
-                    var mes = Message.DeserializeMessage(bytesFrom);//bytes.ToArray());
-                    HandleClientMessage(mes, cc);
+                    if (cc.TcpC.Connected)
+                    {
+                        byte[] bytesFrom = new byte[3500000];
+                        networkStream.Read(bytesFrom, 0, 3500000);
+                        var mes = Message.DeserializeMessage(bytesFrom);//bytes.ToArray());
+                        HandleClientMessage(mes, cc);
+                    }
+                    else
+                        cc.active = false;
+
                 }
-                clients.Remove(cc);
+                catch(Exception ex)
+                {
+                    parentForm.Log(ex.ToString());
+                }
             }
-            catch (Exception ex)
-            {
-                parentForm.Log(ex.ToString());
-                return;
-            }
+            clients.Remove(cc);
         }
 
         //Determines what the server should do given a message.
         private void HandleClientMessage(Message mes, ClientConnection cc)
         {
+            DatabaseHelper.mut.WaitOne();
             if (mes is TextMessage)
             {
                 TextMessage textMessage = (TextMessage)mes;
@@ -94,6 +100,7 @@ namespace Cacophony.AppCode
                 else if (command.type == CommandType.RequestMessages)
                     CmdReturnMessages(command, cc);
             }
+            DatabaseHelper.mut.ReleaseMutex();
         }
 
         private void CmdReturnMessages(CommandMessage cmd, ClientConnection cc)

@@ -52,7 +52,7 @@ namespace Cacophony.Forms
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "All files (*.*)|*.*";
+            openFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.PNG;*.JPEG)|*.BMP;*.JPG;*.PNG;*.JPEG";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
 

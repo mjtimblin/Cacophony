@@ -4,6 +4,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,7 +12,9 @@ namespace Cacophony.AppCode
 {
    static class DatabaseHelper
    {
-      public static int InsertUser(string alias, int groupID, String pin)
+        public static Mutex mut = new Mutex();
+
+        public static int InsertUser(string alias, int groupID, String pin)
       {
          int userId = -1;
          OleDbConnection connect = new OleDbConnection();
@@ -269,7 +272,7 @@ namespace Cacophony.AppCode
          List<TextMessage> messages = new List<TextMessage>();
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT TextMessages.TextID, TextMessages.UserID, TextMessages.PostDate, TextMessages.Content, Users.Alias FROM TextMessages INNER JOIN Users ON Users.UserID = TextMessages.UserID WHERE TextMessages.GroupID = @GroupID AND TextMessages.PostDate > @FromDate";
+         string QueryText = "SELECT TextMessages.TextID, TextMessages.UserID, TextMessages.PostDate, TextMessages.Content, Users.Alias FROM TextMessages INNER JOIN Users ON Users.UserID = TextMessages.UserID WHERE TextMessages.GroupID = @GroupID AND TextMessages.PostDate >= @FromDate";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -306,7 +309,7 @@ namespace Cacophony.AppCode
          List<ImageMessage> messages = new List<ImageMessage>();
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT ImageMessages.ImageID, ImageMessages.UserID, ImageMessages.PostDate, ImageMessages.ImageData, ImageMessages.FileExt, Users.Alias FROM ImageMessages INNER JOIN Users ON Users.UserID = ImageMessages.UserID WHERE ImageMessages.GroupID = @GroupID AND ImageMessages.PostDate > @FromDate";
+         string QueryText = "SELECT ImageMessages.ImageID, ImageMessages.UserID, ImageMessages.PostDate, ImageMessages.ImageData, ImageMessages.FileExt, Users.Alias FROM ImageMessages INNER JOIN Users ON Users.UserID = ImageMessages.UserID WHERE ImageMessages.GroupID = @GroupID AND ImageMessages.PostDate >= @FromDate";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
