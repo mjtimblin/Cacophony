@@ -37,16 +37,16 @@
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(12, 254);
+            this.txtMessage.Location = new System.Drawing.Point(13, 478);
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(221, 20);
+            this.txtMessage.Size = new System.Drawing.Size(364, 20);
             this.txtMessage.TabIndex = 2;
             // 
             // btnSendMessage
             // 
-            this.btnSendMessage.Location = new System.Drawing.Point(239, 251);
+            this.btnSendMessage.Location = new System.Drawing.Point(383, 478);
             this.btnSendMessage.Name = "btnSendMessage";
-            this.btnSendMessage.Size = new System.Drawing.Size(44, 23);
+            this.btnSendMessage.Size = new System.Drawing.Size(69, 23);
             this.btnSendMessage.TabIndex = 3;
             this.btnSendMessage.Text = "Send";
             this.btnSendMessage.UseVisualStyleBackColor = true;
@@ -54,9 +54,9 @@
             // 
             // btnGetMessages
             // 
-            this.btnGetMessages.Location = new System.Drawing.Point(239, 208);
+            this.btnGetMessages.Location = new System.Drawing.Point(308, 449);
             this.btnGetMessages.Name = "btnGetMessages";
-            this.btnGetMessages.Size = new System.Drawing.Size(44, 23);
+            this.btnGetMessages.Size = new System.Drawing.Size(69, 23);
             this.btnGetMessages.TabIndex = 4;
             this.btnGetMessages.Text = "Get";
             this.btnGetMessages.UseVisualStyleBackColor = true;
@@ -64,9 +64,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(289, 208);
+            this.button1.Location = new System.Drawing.Point(383, 449);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 23);
+            this.button1.Size = new System.Drawing.Size(69, 23);
             this.button1.TabIndex = 5;
             this.button1.Text = "Pic";
             this.button1.UseVisualStyleBackColor = true;
@@ -81,19 +81,21 @@
             this.tlpChatLog.Name = "tlpChatLog";
             this.tlpChatLog.RowCount = 1;
             this.tlpChatLog.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpChatLog.Size = new System.Drawing.Size(320, 189);
+            this.tlpChatLog.Size = new System.Drawing.Size(439, 413);
             this.tlpChatLog.TabIndex = 6;
             // 
             // ClientChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 286);
+            this.ClientSize = new System.Drawing.Size(464, 510);
             this.Controls.Add(this.tlpChatLog);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnGetMessages);
             this.Controls.Add(this.btnSendMessage);
             this.Controls.Add(this.txtMessage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "ClientChatForm";
             this.Text = "ClientChatForm";
             this.Load += new System.EventHandler(this.ClientChatForm_Load);

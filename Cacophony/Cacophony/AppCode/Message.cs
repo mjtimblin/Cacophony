@@ -11,13 +11,11 @@ namespace Cacophony.AppCode
     [Serializable]
     public abstract class Message
     {
-        protected int textID;
-
+        protected int messageID;
         protected DateTime postDate;
-
         protected int userID;
-
         protected string userAlias;
+        protected bool isPinned = false;
 
         public Message(int userID, string userAlias)
         {
@@ -30,8 +28,28 @@ namespace Cacophony.AppCode
         {
             this.userID = userID;
             this.postDate = postDate;
-            this.textID = messageID;
+            this.messageID = messageID;
             this.userAlias = userAlias;
+        }
+
+        public bool IsPinned
+        {
+            get
+            {
+                return isPinned;
+            }
+            set
+            {
+                isPinned = value;
+            }
+        }
+
+        public int MessageID
+        {
+            get
+            {
+                return messageID;
+            }
         }
 
         public int UserID

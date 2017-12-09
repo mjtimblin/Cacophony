@@ -76,14 +76,22 @@ namespace Cacophony.Forms
                 return;
             }
 
+            int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
+            tlpChatLog.Padding = new Padding(0, 0, vertScrollWidth, 0);
+
             var panel = new Panel();
+            panel.Dock = DockStyle.Top;
             panel.AutoSize = true;
             panel.BackColor = Color.Aqua;
+            panel.Padding = new Padding(10);
             if (message is TextMessage)
             {
                 TextMessage text = (TextMessage)message;
                 var lbl = new Label();
-                lbl.Text = message.UserAlias + ":" + Environment.NewLine + text.Content;
+                lbl.Dock = DockStyle.Top;
+                lbl.MaximumSize = new Size(tlpChatLog.Width - 60, 0);
+                lbl.Text = "(#" + text.MessageID + ") " + text.UserAlias + ":" + Environment.NewLine + text.Content;
+                lbl.AutoSize = true;
                 panel.Controls.Add(lbl);
                 tlpChatLog.Controls.Add(panel);
             }
@@ -93,9 +101,18 @@ namespace Cacophony.Forms
                 var picBox = new PictureBox();
                 using (var ms = new MemoryStream(image.ImageData))
                 {
+                    var lbl = new Label();
+                    lbl.Dock = DockStyle.Top;
+                    lbl.Text = image.UserAlias + ":";
+                    lbl.AutoSize = true;
+
                     picBox.Image = Image.FromStream(ms);
-                    picBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    picBox.Dock = DockStyle.Top;
+                    picBox.SizeMode = PictureBoxSizeMode.AutoSize;
                     panel.Controls.Add(picBox);
+                    panel.Controls.Add(lbl);
+
+
                     tlpChatLog.Controls.Add(panel);
                 }
             }

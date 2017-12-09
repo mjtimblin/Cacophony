@@ -10,7 +10,7 @@ namespace Cacophony.AppCode
     public class TextMessage : Message
     {
         private string content;
-        public TextMessage(int userID, string userAlias, string content) : base(userID, userAlias )
+        public TextMessage(int userID, string userAlias, string content) : base(userID, userAlias)
         {
             this.content = content;
         }
