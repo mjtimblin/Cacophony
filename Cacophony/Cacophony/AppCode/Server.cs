@@ -69,6 +69,7 @@ namespace Cacophony.AppCode
                 catch(Exception ex)
                 {
                     parentForm.Log(ex.ToString());
+                    //Code to check if user is active.
                 }
             }
             clients.Remove(cc);
