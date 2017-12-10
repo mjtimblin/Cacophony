@@ -32,15 +32,6 @@ namespace Cacophony.Forms
             client.RequestMessages();
         }
 
-        private void btnSendMessage_Click(object sender, EventArgs e)
-        {
-			if(txtMessage.Text.StartsWith("/"))
-                client.SendCommandMessage(txtMessage.Text);
-            else
-                client.SendTextMessage(txtMessage.Text);
-            client.RequestMessages();
-        }
-
         private void btnGetMessages_Click(object sender, EventArgs e)
         {
             client.RequestMessages();
@@ -97,7 +88,7 @@ namespace Cacophony.Forms
             var panel = new Panel();
             panel.Dock = DockStyle.Top;
             panel.AutoSize = true;
-            panel.BackColor = Color.Aqua;
+            panel.BackColor = Color.DimGray;
             panel.Padding = new Padding(10);
             if (message is TextMessage)
             {
@@ -136,6 +127,24 @@ namespace Cacophony.Forms
         private void RefreshTimer_Tick(object sender, EventArgs e)
         {
             client.RequestMessages();
+        }
+
+        private void ClientChatForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //client.CloseConnection();
+        }
+
+        private void txtMessage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(txtMessage.Text))
+            {
+                if (txtMessage.Text.StartsWith("/"))
+                    client.SendCommandMessage(txtMessage.Text);
+                else
+                    client.SendTextMessage(txtMessage.Text);
+                client.RequestMessages();
+                txtMessage.Text = "";
+            }
         }
     }
 }

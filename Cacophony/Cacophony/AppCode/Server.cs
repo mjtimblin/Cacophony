@@ -19,13 +19,15 @@ namespace Cacophony.AppCode
 
         private TcpListener clientListener;
 
+        private Thread AcceptClientThread;
+
         private List<ClientConnection> clients = new List<ClientConnection>();
 
         public static int PORT = 5764;
 
         public bool StartServer()
         {
-            Thread AcceptClientThread = new Thread(AcceptClient);
+            AcceptClientThread = new Thread(AcceptClient);
             AcceptClientThread.Start();
             parentForm.Log("--Server initialized.");
             return true;

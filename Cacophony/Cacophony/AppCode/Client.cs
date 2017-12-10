@@ -50,7 +50,6 @@ namespace Cacophony.AppCode
             byte[] outStream = message.SerializeMessage();
             networkStream.Write(outStream, 0, outStream.Length);
             networkStream.Flush();
-            //txtMessage.Text = "";
         }
 
         private void HandleServerMessage(Message message)

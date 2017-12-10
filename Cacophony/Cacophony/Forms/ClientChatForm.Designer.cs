@@ -30,45 +30,26 @@
         {
             this.components = new System.ComponentModel.Container();
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.btnSendMessage = new System.Windows.Forms.Button();
-            this.btnGetMessages = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tlpChatLog = new System.Windows.Forms.TableLayoutPanel();
             this.RefreshTimer = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(13, 478);
+            this.txtMessage.Location = new System.Drawing.Point(194, 479);
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(364, 20);
+            this.txtMessage.Size = new System.Drawing.Size(388, 20);
             this.txtMessage.TabIndex = 2;
-            // 
-            // btnSendMessage
-            // 
-            this.btnSendMessage.Location = new System.Drawing.Point(383, 478);
-            this.btnSendMessage.Name = "btnSendMessage";
-            this.btnSendMessage.Size = new System.Drawing.Size(69, 23);
-            this.btnSendMessage.TabIndex = 3;
-            this.btnSendMessage.Text = "Send";
-            this.btnSendMessage.UseVisualStyleBackColor = true;
-            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
-            // 
-            // btnGetMessages
-            // 
-            this.btnGetMessages.Location = new System.Drawing.Point(308, 449);
-            this.btnGetMessages.Name = "btnGetMessages";
-            this.btnGetMessages.Size = new System.Drawing.Size(69, 23);
-            this.btnGetMessages.TabIndex = 4;
-            this.btnGetMessages.Text = "Get";
-            this.btnGetMessages.UseVisualStyleBackColor = true;
-            this.btnGetMessages.Click += new System.EventHandler(this.btnGetMessages_Click);
+            this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(383, 449);
+            this.button1.Location = new System.Drawing.Point(588, 475);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(69, 23);
+            this.button1.Size = new System.Drawing.Size(45, 23);
             this.button1.TabIndex = 5;
             this.button1.Text = "Pic";
             this.button1.UseVisualStyleBackColor = true;
@@ -77,13 +58,14 @@
             // tlpChatLog
             // 
             this.tlpChatLog.AutoScroll = true;
+            this.tlpChatLog.BackColor = System.Drawing.Color.Gray;
             this.tlpChatLog.ColumnCount = 1;
             this.tlpChatLog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpChatLog.Location = new System.Drawing.Point(13, 13);
+            this.tlpChatLog.Location = new System.Drawing.Point(194, 14);
             this.tlpChatLog.Name = "tlpChatLog";
             this.tlpChatLog.RowCount = 1;
             this.tlpChatLog.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpChatLog.Size = new System.Drawing.Size(439, 413);
+            this.tlpChatLog.Size = new System.Drawing.Size(439, 455);
             this.tlpChatLog.TabIndex = 6;
             // 
             // RefreshTimer
@@ -92,20 +74,38 @@
             this.RefreshTimer.Interval = 3000;
             this.RefreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(116, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Group Announcements";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 30);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(173, 439);
+            this.textBox1.TabIndex = 8;
+            // 
             // ClientChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 510);
+            this.ClientSize = new System.Drawing.Size(645, 510);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tlpChatLog);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnGetMessages);
-            this.Controls.Add(this.btnSendMessage);
             this.Controls.Add(this.txtMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "ClientChatForm";
-            this.Text = "ClientChatForm";
+            this.Text = "Chat Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientChatForm_FormClosing);
             this.Load += new System.EventHandler(this.ClientChatForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -114,10 +114,10 @@
 
         #endregion
         private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.Button btnSendMessage;
-        private System.Windows.Forms.Button btnGetMessages;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TableLayoutPanel tlpChatLog;
         private System.Windows.Forms.Timer RefreshTimer;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
