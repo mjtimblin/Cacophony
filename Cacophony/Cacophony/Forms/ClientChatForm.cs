@@ -83,7 +83,7 @@ namespace Cacophony.Forms
             }
 
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
-            tlpChatLog.Padding = new Padding(0, 0, vertScrollWidth, 0);
+            tlpChatLog.Padding = new Padding(5);
 
             var panel = new Panel();
             panel.Dock = DockStyle.Top;
@@ -94,6 +94,7 @@ namespace Cacophony.Forms
             {
                 TextMessage text = (TextMessage)message;
                 var lbl = new Label();
+                lbl.ForeColor = Color.White;
                 lbl.Dock = DockStyle.Top;
                 lbl.MaximumSize = new Size(tlpChatLog.Width - 60, 0);
                 lbl.Text = "(#" + text.MessageID + ") " + text.UserAlias + ":" + Environment.NewLine + text.Content;
@@ -108,17 +109,18 @@ namespace Cacophony.Forms
                 using (var ms = new MemoryStream(image.ImageData))
                 {
                     var lbl = new Label();
+                    lbl.ForeColor = Color.White;
                     lbl.Dock = DockStyle.Top;
                     lbl.Text = image.UserAlias + ":";
                     lbl.AutoSize = true;
-
-                    picBox.Image = Image.FromStream(ms);
+                    Image originalImage = Image.FromStream(ms);
+                    float scale = (float)(tlpChatLog.Width - 40) / (float)originalImage.Width;
+                    Bitmap resizedImage = new Bitmap(originalImage, (int)(originalImage.Width * scale), (int)(originalImage.Height * scale));
                     picBox.Dock = DockStyle.Top;
+                    picBox.Image = resizedImage;
                     picBox.SizeMode = PictureBoxSizeMode.AutoSize;
                     panel.Controls.Add(picBox);
                     panel.Controls.Add(lbl);
-
-
                     tlpChatLog.Controls.Add(panel);
                 }
             }
