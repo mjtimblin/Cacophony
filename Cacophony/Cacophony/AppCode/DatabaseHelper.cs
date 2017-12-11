@@ -374,7 +374,7 @@ namespace Cacophony.AppCode
       {
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "DELETE FROM Messages WHERE MessageID = @MessageID";
+         string QueryText = "DELETE FROM TextMessages WHERE MessageID = @MessageID";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
