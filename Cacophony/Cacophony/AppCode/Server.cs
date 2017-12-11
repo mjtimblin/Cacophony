@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Cacophony.AppCode;
 using Cacophony.Forms;
+using System.IO;
 
 namespace Cacophony.AppCode
 {
@@ -41,11 +42,14 @@ namespace Cacophony.AppCode
             {
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = clientListener.AcceptTcpClient();
-                ClientConnection cc = new ClientConnection();
-                cc.TcpC = clientSocket;
-                cc.ListeningThread = new Thread(() => ListenToClient(cc));
-                cc.ListeningThread.Start();
-                clients.Add(cc);
+                if(!group.IsLocked)
+                {
+                    ClientConnection cc = new ClientConnection();
+                    cc.TcpC = clientSocket;
+                    cc.ListeningThread = new Thread(() => ListenToClient(cc));
+                    cc.ListeningThread.Start();
+                    clients.Add(cc);
+                }
             }
         }
 
@@ -96,12 +100,84 @@ namespace Cacophony.AppCode
             else if (mes is CommandMessage)
             {
                 CommandMessage command = (CommandMessage)mes;
+
                 if (command.type == CommandType.ValidateAttempt)
                     CmdValidateAttempt(command, cc);
                 else if (command.type == CommandType.Ping)
+                {
                     parentForm.Log(command.content.ToString());
+                    cc.userID = mes.UserID;
+                }
                 else if (command.type == CommandType.RequestMessages)
                     CmdReturnMessages(command, cc);
+                else if (command.type == CommandType.SetDisplayName)
+                {
+                    var userToChange = DatabaseHelper.SelectUserById(command.UserID);
+                    if (userToChange != null)
+                    {
+                        userToChange.Alias = command.content.ToString();
+                        DatabaseHelper.UpdateUser(userToChange);
+                    }
+                }
+                else if (group.Moderators.Contains(command.UserID) || group.Owner == command.UserID)
+                {
+                    if (command.type == CommandType.Ban)
+                    {
+                        var userToBan = DatabaseHelper.SelectUser(command.content.ToString(), group.GroupID);
+                        if (userToBan != null)
+                        {
+                            ClientConnection clientToBan = null;
+                            foreach (var client in clients)
+                                if (client.userID == userToBan.UserID)
+                                    clientToBan = client;
+                            if (clientToBan != null)
+                            {
+                                clientToBan.TcpC.Close();
+                                clientToBan.ListeningThread.Abort();
+                                clients.Remove(clientToBan);
+                            }
+                        }
+                    }
+                    else if (command.type == CommandType.SetGroupAnnouncements)
+                    {
+                        DatabaseHelper.InsertAnnouncement(command.content.ToString(), group.GroupID);
+                    }
+                    else if (command.type == CommandType.DeleteMessage)
+                    {
+                        DatabaseHelper.DeleteMessage(int.Parse(command.content.ToString()));
+                    }
+                }
+                else if (group.Owner == command.UserID)
+                {
+                    if (command.type == CommandType.Lock)
+                    {
+                        group.IsLocked = bool.Parse(command.content.ToString());
+                        DatabaseHelper.UpdateGroup(group);
+                    }
+                    else if (command.type == CommandType.Promote)
+                    {
+                        var userToPromote = DatabaseHelper.SelectUser(command.content.ToString(), group.GroupID);
+                        if (userToPromote != null)
+                        {
+                            group.Moderators.Add(userToPromote.UserID);
+                            DatabaseHelper.UpdateGroup(group);
+                        }
+                    }
+                    else if (command.type == CommandType.Demote)
+                    {
+                        var userToDemote = DatabaseHelper.SelectUser(command.content.ToString(), group.GroupID);
+                        if (userToDemote != null)
+                        {
+                            group.Moderators.Add(userToDemote.UserID);
+                            DatabaseHelper.UpdateGroup(group);
+                        }
+                    }
+                    else if (command.type == CommandType.SetPassword)
+                    {
+                        group.Password = command.content.ToString();
+                        DatabaseHelper.UpdateGroup(group);
+                    }
+                }
             }
             DatabaseHelper.mut.ReleaseMutex();
         }
@@ -113,7 +189,9 @@ namespace Cacophony.AppCode
             List<Message> allMessages = new List<Message>();
             allMessages.AddRange(textMessages);
             allMessages.AddRange(imageMessages);
-            CommandMessage response = new CommandMessage(-1, "server", CommandType.RequestMessages, allMessages.OrderBy(m => m.PostDate).ToArray());
+            CommandMessage response = new CommandMessage(-1, "server", CommandType.NewMessages, allMessages.OrderBy(m => m.PostDate).ToArray());
+            //foreach(var message in allMessages)
+            //    SendToClient(new CommandMessage(-1, "server", CommandType.NewMessage, message), cc);
             SendToClient(response, cc);
         }
 
@@ -154,6 +232,9 @@ namespace Cacophony.AppCode
         private void SendToClient(Message message, ClientConnection cc)
         {
             NetworkStream networkStream = cc.TcpC.GetStream();
+            //StreamWriter writer = new StreamWriter(networkStream);
+            //writer.WriteLine(message);
+            //writer.Flush();
             byte[] outStream = message.SerializeMessage();
             networkStream.Write(outStream, 0, outStream.Length);
             networkStream.Flush();
@@ -179,5 +260,6 @@ namespace Cacophony.AppCode
         public bool active = true;
         public Thread ListeningThread;
         public TcpClient TcpC;
+        public int userID;
     }
 }

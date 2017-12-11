@@ -42,6 +42,9 @@
             this.txtConsole.Multiline = true;
             this.txtConsole.Name = "txtConsole";
             this.txtConsole.Size = new System.Drawing.Size(481, 361);
+            this.txtConsole.MaxLength = 3000000;
+            this.txtConsole.Multiline = true;
+            this.txtConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtConsole.TabIndex = 0;
             // 
             // label3

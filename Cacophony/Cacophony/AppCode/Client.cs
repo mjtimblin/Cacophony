@@ -57,13 +57,13 @@ namespace Cacophony.AppCode
             if(message is CommandMessage)
             {
                 CommandMessage cmd = (CommandMessage)message;
-                if(cmd.type == CommandType.RequestMessages)
+                if (cmd.type == CommandType.NewMessages)
                 {
-                    var mesList = (Message[])cmd.content;
-                    foreach (var mes in mesList)
+                    var messages = (Message[])cmd.content;
+                    foreach(var mes in messages)
                     {
                         string mesID = ((mes is TextMessage) ? "txt" : "img") + mes.MessageID;
-                        if(!recievedMessages.Contains(mesID))
+                        if (!recievedMessages.Contains(mesID))
                         {
                             recievedMessages.Add(mesID);
                             parentForm.ShowMessage(mes);
@@ -99,25 +99,30 @@ namespace Cacophony.AppCode
             try
             {
                 var values = command.Remove(0,1).Split(' ');
-                CommandMessage cmd;
+                CommandMessage cmd = null;
                 if (values[0] == "promote")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Promote, values[1]);
                 else if (values[0] == "demote")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Demote, values[1]);
                 else if (values[0] == "lock")
-                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Lock, values[1]);
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Lock, bool.Parse(values[1]));
                 else if (values[0] == "setpassword")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetPassword, values[1]);
                 else if (values[0] == "setname")
+                {
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetDisplayName, values[1]);
+                    user.Alias = values[1];
+                }
                 else if (values[0] == "delete")
-                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, values[1]);
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, int.Parse(values[1]));
                 else if (values[0] == "ban")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ban, values[1]);
                 else if (values[0] == "pin")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Pin, values[1] + "|" + values[2]);
                 else if (values[0] == "announce")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetGroupAnnouncements, values[1]);
+                if(cmd != null)
+                    SendToServer((Message)cmd);
             }
             catch(Exception ex)
             {
