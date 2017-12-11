@@ -406,10 +406,9 @@ namespace Cacophony.AppCode
             {
                command.Connection = connect;
                command.Parameters.AddWithValue("@GroupID", groupId);
+               command.Parameters.AddWithValue("@Content", contents);
                command.ExecuteNonQuery();
                command.CommandText = QueryText2;
-               command.Parameters.AddWithValue("@GroupID", groupId);
-               command.Parameters.AddWithValue("@Content", contents);
                command.ExecuteNonQuery();
                connect.Close();
             }

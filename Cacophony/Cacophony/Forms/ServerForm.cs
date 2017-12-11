@@ -44,16 +44,5 @@ namespace Cacophony.Forms
             txtConsole.AppendText(Environment.NewLine + text);
             txtConsole.ScrollToCaret();
         }
-
-        public void UpdateOwnerDisplay(string ownerName, int ownerPIN)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action<string>(Log), new object[] { ownerName, ownerPIN });
-                return;
-            }
-            txtOwnerName.Text = ownerName;
-            txtOwnerPIN.Text = ownerPIN.ToString();
-        }
     }
 }
