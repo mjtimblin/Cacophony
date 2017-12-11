@@ -57,13 +57,13 @@ namespace Cacophony.AppCode
             if(message is CommandMessage)
             {
                 CommandMessage cmd = (CommandMessage)message;
-                if(cmd.type == CommandType.RequestMessages)
+                if (cmd.type == CommandType.NewMessages)
                 {
-                    var mesList = (Message[])cmd.content;
-                    foreach (var mes in mesList)
+                    var messages = (Message[])cmd.content;
+                    foreach(var mes in messages)
                     {
                         string mesID = ((mes is TextMessage) ? "txt" : "img") + mes.MessageID;
-                        if(!recievedMessages.Contains(mesID))
+                        if (!recievedMessages.Contains(mesID))
                         {
                             recievedMessages.Add(mesID);
                             parentForm.ShowMessage(mes);
@@ -114,7 +114,7 @@ namespace Cacophony.AppCode
                     user.Alias = values[1];
                 }
                 else if (values[0] == "delete")
-                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, values[1]);
+                    cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, int.Parse(values[1]));
                 else if (values[0] == "ban")
                     cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ban, values[1]);
                 else if (values[0] == "pin")

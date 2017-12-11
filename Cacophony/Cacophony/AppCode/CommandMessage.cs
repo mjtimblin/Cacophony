@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cacophony.AppCode
 {
     public enum CommandType {Test, ValidateAttempt, ValidateConfirm, Ping, CloseConnection, RequestMessages,
-        Promote, Demote, Lock, SetPassword, SetDisplayName, Ban, DeleteMessage, Pin, SetGroupAnnouncements, CloseServer};
+        Promote, Demote, Lock, SetPassword, SetDisplayName, Ban, DeleteMessage, Pin, SetGroupAnnouncements, CloseServer, NewMessages};
 
     [Serializable]
     public class CommandMessage : Message

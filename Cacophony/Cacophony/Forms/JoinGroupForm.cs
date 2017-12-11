@@ -33,8 +33,6 @@ namespace Cacophony.Forms
                 thread.IsBackground = true;
                 thread.Start(ClientChat);
             }
-            else
-                MessageBox.Show("Something went wrong!");
         }
 
         private int Login(string ip, string password, User user)
@@ -63,13 +61,12 @@ namespace Cacophony.Forms
                     if (serverResponse[0] == "false")
                         MessageBox.Show("Wrong password or PIN.");
                     else
-                    {
                         return int.Parse(serverResponse[1]);
-                    }
                 }
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Server did not respond!");
                 return -1;
             }
             finally

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Cacophony.AppCode;
 using Cacophony.Forms;
+using System.IO;
 
 namespace Cacophony.AppCode
 {
@@ -139,11 +140,11 @@ namespace Cacophony.AppCode
                     }
                     else if (command.type == CommandType.SetGroupAnnouncements)
                     {
-
+                        DatabaseHelper.InsertAnnouncement(command.content.ToString(), group.GroupID);
                     }
                     else if (command.type == CommandType.DeleteMessage)
                     {
-
+                        DatabaseHelper.DeleteMessage(int.Parse(command.content.ToString()));
                     }
                 }
                 else if (group.Owner == command.UserID)
@@ -188,7 +189,9 @@ namespace Cacophony.AppCode
             List<Message> allMessages = new List<Message>();
             allMessages.AddRange(textMessages);
             allMessages.AddRange(imageMessages);
-            CommandMessage response = new CommandMessage(-1, "server", CommandType.RequestMessages, allMessages.OrderBy(m => m.PostDate).ToArray());
+            CommandMessage response = new CommandMessage(-1, "server", CommandType.NewMessages, allMessages.OrderBy(m => m.PostDate).ToArray());
+            //foreach(var message in allMessages)
+            //    SendToClient(new CommandMessage(-1, "server", CommandType.NewMessage, message), cc);
             SendToClient(response, cc);
         }
 
@@ -229,6 +232,9 @@ namespace Cacophony.AppCode
         private void SendToClient(Message message, ClientConnection cc)
         {
             NetworkStream networkStream = cc.TcpC.GetStream();
+            //StreamWriter writer = new StreamWriter(networkStream);
+            //writer.WriteLine(message);
+            //writer.Flush();
             byte[] outStream = message.SerializeMessage();
             networkStream.Write(outStream, 0, outStream.Length);
             networkStream.Flush();
