@@ -164,7 +164,17 @@ namespace Cacophony.Forms
          txtAnnouncements.Text = annnouncement;
       }
 
-      private void AnnouncementTimer_Tick(object sender, EventArgs e)
+        public void CloseClientForm()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseClientForm));
+                return;
+            }
+            this.Close();
+        }
+
+        private void AnnouncementTimer_Tick(object sender, EventArgs e)
       {
          client.RequestAnnouncements();
       }

@@ -46,7 +46,7 @@ namespace Cacophony.AppCode
             }
             catch(Exception ex)
             {
-                parentForm.Close();
+                parentForm.CloseClientForm();
                 return;
             }
          }
