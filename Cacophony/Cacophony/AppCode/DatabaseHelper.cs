@@ -12,9 +12,9 @@ namespace Cacophony.AppCode
 {
    static class DatabaseHelper
    {
-        public static Mutex mut = new Mutex();
+      public static Mutex mut = new Mutex();
 
-        public static int InsertUser(string alias, int groupID, String pin)
+      public static int InsertUser(string alias, int groupID, string pin)
       {
          int userId = -1;
          OleDbConnection connect = new OleDbConnection();
@@ -32,9 +32,9 @@ namespace Cacophony.AppCode
                command.Parameters.AddWithValue("@GroupID", groupID);
                command.Parameters.AddWithValue("@PIN", pin);
 
-                command.ExecuteNonQuery();
-                command.CommandText = QueryText2;
-                userId = (int) command.ExecuteScalar();
+               command.ExecuteNonQuery();
+               command.CommandText = QueryText2;
+               userId = (int)command.ExecuteScalar();
                connect.Close();
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace Cacophony.AppCode
       public static int InsertGroup(Group group)
       {
          int groupId = -1;
-        String modList = string.Join(",", group.Moderators);
+         string modList = string.Join(",", group.Moderators);
 
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
@@ -57,7 +57,7 @@ namespace Cacophony.AppCode
          string QueryText2 = "Select @@Identity";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))//OUTPUT GroupID
-            {
+         {
             try
             {
                //OleDbDataAdapter da = new OleDbDataAdapter("INSERT INTO Groups", connect);
@@ -81,64 +81,64 @@ namespace Cacophony.AppCode
          return groupId;
       }
 
-        public static int UpdateGroup(Group group)
-        {
-            int groupId = -1;
-            String modList = string.Join(",", group.Moderators);
+      public static int UpdateGroup(Group group)
+      {
+         int groupId = -1;
+         string modList = string.Join(",", group.Moderators);
 
-            OleDbConnection connect = new OleDbConnection();
-            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-            string QueryText = "UPDATE Groups SET GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password, IsLocked = @IsLocked WHERE GroupID = " + group.GroupID;
-            connect.Open();
-            using (OleDbCommand command = new OleDbCommand(QueryText))
+         OleDbConnection connect = new OleDbConnection();
+         connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+         string QueryText = "UPDATE Groups SET GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password, IsLocked = @IsLocked WHERE GroupID = " + group.GroupID;
+         connect.Open();
+         using (OleDbCommand command = new OleDbCommand(QueryText))
+         {
+            try
             {
-                try
-                {
-                    command.Connection = connect;
-                    command.Parameters.AddWithValue("@GroupName", group.GroupName);
-                    command.Parameters.AddWithValue("@ModList", modList);
-                    command.Parameters.AddWithValue("@OwnerID", group.Owner);
-                    command.Parameters.AddWithValue("@Password", group.Password);
-                    command.Parameters.AddWithValue("@IsLocked", group.IsLocked);
+               command.Connection = connect;
+               command.Parameters.AddWithValue("@GroupName", group.GroupName);
+               command.Parameters.AddWithValue("@ModList", modList);
+               command.Parameters.AddWithValue("@OwnerID", group.Owner);
+               command.Parameters.AddWithValue("@Password", group.Password);
+               command.Parameters.AddWithValue("@IsLocked", group.IsLocked);
 
-                    command.ExecuteNonQuery();
-                    connect.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    connect.Close();
-                }
+               command.ExecuteNonQuery();
+               connect.Close();
             }
-            return groupId;
-        }
-
-        public static void UpdateUser(User user)
-        {
-            OleDbConnection connect = new OleDbConnection();
-            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-            string QueryText = "UPDATE Users SET Alias = @Alias, PIN = @PIN WHERE UserID = " + user.UserID;
-            connect.Open();
-            using (OleDbCommand command = new OleDbCommand(QueryText))
+            catch (Exception ex)
             {
-                try
-                {
-                    command.Connection = connect;
-                    command.Parameters.AddWithValue("@Alias", user.Alias);
-                    command.Parameters.AddWithValue("@PIN", user.PIN);
-
-                    command.ExecuteNonQuery();
-                    connect.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    connect.Close();
-                }
+               MessageBox.Show(ex.Message);
+               connect.Close();
             }
-        }
+         }
+         return groupId;
+      }
 
-        public static void InsertTextMessage(TextMessage message, int groupID)
+      public static void UpdateUser(User user)
+      {
+         OleDbConnection connect = new OleDbConnection();
+         connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+         string QueryText = "UPDATE Users SET Alias = @Alias, PIN = @PIN WHERE UserID = " + user.UserID;
+         connect.Open();
+         using (OleDbCommand command = new OleDbCommand(QueryText))
+         {
+            try
+            {
+               command.Connection = connect;
+               command.Parameters.AddWithValue("@Alias", user.Alias);
+               command.Parameters.AddWithValue("@PIN", user.PIN);
+
+               command.ExecuteNonQuery();
+               connect.Close();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(ex.Message);
+               connect.Close();
+            }
+         }
+      }
+
+      public static void InsertTextMessage(TextMessage message, int groupID)
       {
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
@@ -196,7 +196,7 @@ namespace Cacophony.AppCode
 
       public static User SelectUserById(int userId)
       {
-        User user = null;
+         User user = null;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
          string QueryText = "SELECT Users.UserID, Users.Alias, Users.PIN FROM Users WHERE UserID = @UserID";
@@ -212,8 +212,8 @@ namespace Cacophony.AppCode
                {
                   user = new User(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString());
                }
-                    reader.Close();
-                    connect.Close();
+               reader.Close();
+               connect.Close();
             }
             catch (Exception ex)
             {
@@ -271,20 +271,20 @@ namespace Cacophony.AppCode
                while (reader.Read())
                {
                   int groupId = int.Parse(reader[0].ToString());
-                  String groupName = reader[1].ToString();
-                  String password = reader[2].ToString();
-                    List<int> moderatorList = new List<int>();
-                    if (!string.IsNullOrWhiteSpace(reader[3].ToString()))
-                        moderatorList = reader[3].ToString().Split(',').Select(int.Parse).ToList();
-                    int ownerId = -1;
-                    if(!string.IsNullOrWhiteSpace(reader[4].ToString()))
-                        ownerId = int.Parse(reader[4].ToString());
-                        var newGroup = new Group(groupId, groupName, password, moderatorList, ownerId);
-                        newGroup.IsLocked = bool.Parse(reader[5].ToString());
+                  string groupName = reader[1].ToString();
+                  string password = reader[2].ToString();
+                  List<int> moderatorList = new List<int>();
+                  if (!string.IsNullOrWhiteSpace(reader[3].ToString()))
+                     moderatorList = reader[3].ToString().Split(',').Select(int.Parse).ToList();
+                  int ownerId = -1;
+                  if (!string.IsNullOrWhiteSpace(reader[4].ToString()))
+                     ownerId = int.Parse(reader[4].ToString());
+                  var newGroup = new Group(groupId, groupName, password, moderatorList, ownerId);
+                  newGroup.IsLocked = bool.Parse(reader[5].ToString());
                   groups.Add(newGroup);
                }
-                    reader.Close();
-                    connect.Close();
+               reader.Close();
+               connect.Close();
             }
             catch (Exception ex)
             {
@@ -308,20 +308,20 @@ namespace Cacophony.AppCode
             {
                command.Connection = connect;
                command.Parameters.AddWithValue("@GroupID", groupId);
-                    command.Parameters.AddWithValue("@FromDate", fromDate);
-                    OleDbDataReader reader = command.ExecuteReader();
+               command.Parameters.AddWithValue("@FromDate", fromDate);
+               OleDbDataReader reader = command.ExecuteReader();
                while (reader.Read())
                {
                   int textId = int.Parse(reader[0].ToString());
                   int userId = int.Parse(reader[1].ToString());
                   DateTime postDate = DateTime.Parse(reader[2].ToString());
-                  String content = reader[3].ToString();
-                        string userAlias = reader[4].ToString();
+                  string content = reader[3].ToString();
+                  string userAlias = reader[4].ToString();
 
                   messages.Add(new TextMessage(userId, userAlias, textId, postDate, content));
                }
-                    reader.Close();
-                    connect.Close();
+               reader.Close();
+               connect.Close();
             }
             catch (Exception ex)
             {
@@ -345,7 +345,7 @@ namespace Cacophony.AppCode
             {
                command.Connection = connect;
                command.Parameters.AddWithValue("@GroupID", groupId);
-                    command.Parameters.AddWithValue("@FromDate", fromDate);
+               command.Parameters.AddWithValue("@FromDate", fromDate);
                OleDbDataReader reader = command.ExecuteReader();
                while (reader.Read())
                {
@@ -353,13 +353,13 @@ namespace Cacophony.AppCode
                   int userId = int.Parse(reader[1].ToString());
                   DateTime postDate = DateTime.Parse(reader[2].ToString());
                   byte[] imageData = Convert.FromBase64String(reader[3].ToString());
-                  String fileExt = reader[4].ToString();
-                        string userAlias = reader[5].ToString();
+                  string fileExt = reader[4].ToString();
+                  string userAlias = reader[5].ToString();
 
                   messages.Add(new ImageMessage(userId, userAlias, imageId, postDate, imageData, fileExt));
                }
-                    reader.Close();
-                    connect.Close();
+               reader.Close();
+               connect.Close();
             }
             catch (Exception ex)
             {
@@ -369,5 +369,86 @@ namespace Cacophony.AppCode
          }
          return messages;
       }
-    }
+
+      public static void DeleteMessage(int messageId)
+      {
+         OleDbConnection connect = new OleDbConnection();
+         connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+         string QueryText = "DELETE FROM Messages WHERE MessageID = @MessageID";
+         connect.Open();
+         using (OleDbCommand command = new OleDbCommand(QueryText))
+         {
+            try
+            {
+               command.Connection = connect;
+               command.Parameters.AddWithValue("@MessageID", messageId);
+               command.ExecuteNonQuery();
+               connect.Close();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(ex.Message);
+               connect.Close();
+            }
+         }
+      }
+
+      public static void InsertAnnouncement(string contents, int groupId)
+      {
+         OleDbConnection connect = new OleDbConnection();
+         connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+         string QueryText1 = "DELETE FROM Announcements WHERE GroupID = @GroupID";
+         string QueryText2 = "INSERT INTO Announcements (GroupID, Content) VALUES (@GroupID, @Content)";
+         connect.Open();
+         using (OleDbCommand command = new OleDbCommand(QueryText1))
+         {
+            try
+            {
+               command.Connection = connect;
+               command.Parameters.AddWithValue("@GroupID", groupId);
+               command.ExecuteNonQuery();
+               command.CommandText = QueryText2;
+               command.Parameters.AddWithValue("@GroupID", groupId);
+               command.Parameters.AddWithValue("@Content", contents);
+               command.ExecuteNonQuery();
+               connect.Close();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(ex.Message);
+               connect.Close();
+            }
+         }
+      }
+
+      public static string SelectAnnouncement(int groupId)
+      {
+         string content = "";
+         OleDbConnection connect = new OleDbConnection();
+         connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+         string QueryText = "SELECT Announcements.Content FROM Announcements WHERE GroupID = @GroupID";
+         connect.Open();
+         using (OleDbCommand command = new OleDbCommand(QueryText))
+         {
+            try
+            {
+               command.Connection = connect;
+               command.Parameters.AddWithValue("@GroupID", groupId);
+               OleDbDataReader reader = command.ExecuteReader();
+               while (reader.Read())
+               {
+                  content = reader[0].ToString();
+               }
+               reader.Close();
+               connect.Close();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(ex.Message);
+               connect.Close();
+            }
+         }
+         return content;
+      }
+   }
 }
