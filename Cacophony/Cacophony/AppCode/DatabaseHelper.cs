@@ -88,7 +88,7 @@ namespace Cacophony.AppCode
 
             OleDbConnection connect = new OleDbConnection();
             connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-            string QueryText = "UPDATE Groups SET GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password WHERE GroupID = " + group.GroupID;
+            string QueryText = "UPDATE Groups SET GroupName = @GroupName, ModList = @ModList, OwnerID = @OwnerID, [Password] = @Password, IsLocked = @IsLocked WHERE GroupID = " + group.GroupID;
             connect.Open();
             using (OleDbCommand command = new OleDbCommand(QueryText))
             {
@@ -99,6 +99,7 @@ namespace Cacophony.AppCode
                     command.Parameters.AddWithValue("@ModList", modList);
                     command.Parameters.AddWithValue("@OwnerID", group.Owner);
                     command.Parameters.AddWithValue("@Password", group.Password);
+                    command.Parameters.AddWithValue("@IsLocked", group.IsLocked);
 
                     command.ExecuteNonQuery();
                     connect.Close();
@@ -110,6 +111,31 @@ namespace Cacophony.AppCode
                 }
             }
             return groupId;
+        }
+
+        public static void UpdateUser(User user)
+        {
+            OleDbConnection connect = new OleDbConnection();
+            connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
+            string QueryText = "UPDATE Users SET Alias = @Alias, PIN = @PIN WHERE UserID = " + user.UserID;
+            connect.Open();
+            using (OleDbCommand command = new OleDbCommand(QueryText))
+            {
+                try
+                {
+                    command.Connection = connect;
+                    command.Parameters.AddWithValue("@Alias", user.Alias);
+                    command.Parameters.AddWithValue("@PIN", user.PIN);
+
+                    command.ExecuteNonQuery();
+                    connect.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    connect.Close();
+                }
+            }
         }
 
         public static void InsertTextMessage(TextMessage message, int groupID)
@@ -170,7 +196,7 @@ namespace Cacophony.AppCode
 
       public static User SelectUserById(int userId)
       {
-         User user = null;
+        User user = null;
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
          string QueryText = "SELECT Users.UserID, Users.Alias, Users.PIN FROM Users WHERE UserID = @UserID";
@@ -180,7 +206,7 @@ namespace Cacophony.AppCode
             try
             {
                command.Connection = connect;
-               command.Parameters.AddWithValue("@UserID", user.UserID);
+               command.Parameters.AddWithValue("@UserID", userId);
                OleDbDataReader reader = command.ExecuteReader();
                while (reader.Read())
                {
@@ -234,7 +260,7 @@ namespace Cacophony.AppCode
          List<Group> groups = new List<Group>();
          OleDbConnection connect = new OleDbConnection();
          connect.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path.Combine(Environment.CurrentDirectory, @"Data\..\..\..\", "DBA.accdb");
-         string QueryText = "SELECT Groups.GroupID, Groups.GroupName, Groups.Password, Groups.Modlist, Groups.OwnerId FROM Groups";
+         string QueryText = "SELECT Groups.GroupID, Groups.GroupName, Groups.Password, Groups.Modlist, Groups.OwnerId, Groups.IsLocked FROM Groups";
          connect.Open();
          using (OleDbCommand command = new OleDbCommand(QueryText))
          {
@@ -253,7 +279,9 @@ namespace Cacophony.AppCode
                     int ownerId = -1;
                     if(!string.IsNullOrWhiteSpace(reader[4].ToString()))
                         ownerId = int.Parse(reader[4].ToString());
-                  groups.Add(new Group(groupId, groupName, password, moderatorList, ownerId));
+                        var newGroup = new Group(groupId, groupName, password, moderatorList, ownerId);
+                        newGroup.IsLocked = bool.Parse(reader[5].ToString());
+                  groups.Add(newGroup);
                }
                     reader.Close();
                     connect.Close();
@@ -341,5 +369,5 @@ namespace Cacophony.AppCode
          }
          return messages;
       }
-   }
+    }
 }
