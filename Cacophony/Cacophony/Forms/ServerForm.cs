@@ -42,6 +42,7 @@ namespace Cacophony.Forms
                 return;
             }
             txtConsole.AppendText(Environment.NewLine + text);
+            txtConsole.ScrollToCaret();
         }
 
         public void UpdateOwnerDisplay(string ownerName, int ownerPIN)

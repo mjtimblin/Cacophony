@@ -39,8 +39,10 @@
             // txtConsole
             // 
             this.txtConsole.Location = new System.Drawing.Point(12, 27);
+            this.txtConsole.MaxLength = 3000000;
             this.txtConsole.Multiline = true;
             this.txtConsole.Name = "txtConsole";
+            this.txtConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtConsole.Size = new System.Drawing.Size(334, 263);
             this.txtConsole.TabIndex = 0;
             // 
