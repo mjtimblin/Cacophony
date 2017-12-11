@@ -39,7 +39,6 @@ namespace Cacophony.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Stream myStream = null;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.InitialDirectory = "c:\\";
@@ -49,8 +48,15 @@ namespace Cacophony.Forms
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                var imageArray = File.ReadAllBytes(openFileDialog1.FileName);
-                client.SendImage(imageArray, Path.GetExtension(openFileDialog1.FileName));
+                if (new FileInfo(openFileDialog1.FileName).Length > 3000000)
+                {
+                    PromptUser("File is too large!");
+                }
+                else
+                {
+                    var imageArray = File.ReadAllBytes(openFileDialog1.FileName);
+                    client.SendImage(imageArray, Path.GetExtension(openFileDialog1.FileName));
+                }
             }
         }
 
@@ -84,7 +90,6 @@ namespace Cacophony.Forms
 
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             tlpChatLog.Padding = new Padding(5);
-
             var panel = new Panel();
             panel.Dock = DockStyle.Top;
             panel.AutoSize = true;
