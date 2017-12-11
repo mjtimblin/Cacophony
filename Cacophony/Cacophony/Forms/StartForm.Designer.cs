@@ -35,9 +35,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +66,7 @@
             this.btnJoinGroup.Location = new System.Drawing.Point(13, 141);
             this.btnJoinGroup.Name = "btnJoinGroup";
             this.btnJoinGroup.Size = new System.Drawing.Size(179, 36);
-            this.btnJoinGroup.TabIndex = 1;
+            this.btnJoinGroup.TabIndex = 3;
             this.btnJoinGroup.Text = "Join Group";
             this.btnJoinGroup.UseVisualStyleBackColor = false;
             this.btnJoinGroup.Click += new System.EventHandler(this.btnJoinGroup_Click);
@@ -80,7 +80,7 @@
             this.button1.Location = new System.Drawing.Point(13, 97);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(179, 38);
-            this.button1.TabIndex = 2;
+            this.button1.TabIndex = 1;
             this.button1.Text = "Resume Group";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -108,6 +108,17 @@
             this.panel1.Size = new System.Drawing.Size(207, 198);
             this.panel1.TabIndex = 4;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(10, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(188, 16);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Please Choose A Command";
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -123,17 +134,6 @@
             this.label1.Size = new System.Drawing.Size(138, 32);
             this.label1.TabIndex = 6;
             this.label1.Text = "Welcome";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(10, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(188, 16);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Please Choose A Command";
             // 
             // StartForm
             // 

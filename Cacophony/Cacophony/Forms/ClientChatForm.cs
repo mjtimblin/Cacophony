@@ -89,7 +89,7 @@ namespace Cacophony.Forms
          }
 
          int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
-         tlpChatLog.Padding = new Padding(5);
+         tlpChatLog.Padding = new Padding(10);
          var panel = new Panel();
          panel.Dock = DockStyle.Top;
          panel.AutoSize = true;

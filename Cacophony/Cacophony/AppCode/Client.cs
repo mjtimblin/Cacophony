@@ -35,12 +35,20 @@ namespace Cacophony.AppCode
       {
          while (true)
          {
-            NetworkStream networkStream = clientSocket.GetStream();
-            byte[] bytesFrom = new byte[3500000];
-            networkStream.Read(bytesFrom, 0, 3500000);
-            var mes = Message.DeserializeMessage(bytesFrom);
+            try
+            {
+                NetworkStream networkStream = clientSocket.GetStream();
+                byte[] bytesFrom = new byte[3500000];
+                networkStream.Read(bytesFrom, 0, 3500000);
+                var mes = Message.DeserializeMessage(bytesFrom);
 
-            HandleServerMessage(mes);
+                HandleServerMessage(mes);
+            }
+            catch(Exception ex)
+            {
+                parentForm.Close();
+                return;
+            }
          }
       }
 
@@ -103,28 +111,31 @@ namespace Cacophony.AppCode
          try
          {
             var values = command.Remove(0, 1).Split(' ');
-            CommandMessage cmd = null;
+            var parameters = command.Split(' ').ToList<string>();
+            parameters.RemoveAt(0);
+            var param = string.Join(" ", parameters.ToArray());
+                CommandMessage cmd = null;
             if (values[0] == "promote")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Promote, command.Remove(0, 9));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Promote, param);
             else if (values[0] == "demote")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Demote, command.Remove(0, 8));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Demote, param);
             else if (values[0] == "lock")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Lock, bool.Parse(values[1]));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Lock, bool.Parse(parameters[0]));
             else if (values[0] == "setpassword")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetPassword, command.Remove(0, 13));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetPassword, param);
             else if (values[0] == "setname")
             {
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetDisplayName, command.Remove(0, 9));
-               user.Alias = command.Remove(0, 9);
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetDisplayName, param);
+               user.Alias = param;
             }
             else if (values[0] == "delete")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, int.Parse(values[1]));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.DeleteMessage, int.Parse(parameters[0]));
             else if (values[0] == "ban")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ban, command.Remove(0, 5));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Ban, param);
             else if (values[0] == "pin")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Pin, values[1] + "|" + values[2]);
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.Pin, parameters[0] + "|" + parameters[1]);
             else if (values[0] == "announce")
-               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetGroupAnnouncements, command.Remove(0, 10));
+               cmd = new CommandMessage(user.UserID, user.Alias, CommandType.SetGroupAnnouncements, param);
             if (cmd != null)
                SendToServer((Message)cmd);
          }

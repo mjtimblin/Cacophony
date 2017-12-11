@@ -93,7 +93,7 @@
             this.txtIP.Location = new System.Drawing.Point(93, 6);
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(116, 21);
-            this.txtIP.TabIndex = 5;
+            this.txtIP.TabIndex = 0;
             this.txtIP.Text = "137.104.120.238";
             // 
             // txtPassword
@@ -105,7 +105,7 @@
             this.txtPassword.Location = new System.Drawing.Point(94, 35);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(115, 20);
-            this.txtPassword.TabIndex = 7;
+            this.txtPassword.TabIndex = 1;
             this.txtPassword.Text = "Pass12345";
             // 
             // txtPIN
@@ -117,7 +117,7 @@
             this.txtPIN.Location = new System.Drawing.Point(94, 61);
             this.txtPIN.Name = "txtPIN";
             this.txtPIN.Size = new System.Drawing.Size(115, 20);
-            this.txtPIN.TabIndex = 8;
+            this.txtPIN.TabIndex = 2;
             this.txtPIN.Text = "1234";
             // 
             // txtUsername
@@ -129,7 +129,7 @@
             this.txtUsername.Location = new System.Drawing.Point(93, 90);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(116, 20);
-            this.txtUsername.TabIndex = 9;
+            this.txtUsername.TabIndex = 3;
             this.txtUsername.Text = "fed";
             // 
             // btnJoinGroup
@@ -141,7 +141,7 @@
             this.btnJoinGroup.Location = new System.Drawing.Point(93, 116);
             this.btnJoinGroup.Name = "btnJoinGroup";
             this.btnJoinGroup.Size = new System.Drawing.Size(116, 23);
-            this.btnJoinGroup.TabIndex = 10;
+            this.btnJoinGroup.TabIndex = 4;
             this.btnJoinGroup.Text = "Join Group";
             this.btnJoinGroup.UseVisualStyleBackColor = false;
             this.btnJoinGroup.Click += new System.EventHandler(this.btnJoinGroup_Click);

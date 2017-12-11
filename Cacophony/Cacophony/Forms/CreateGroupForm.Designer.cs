@@ -67,7 +67,7 @@
             this.txtPassword.Location = new System.Drawing.Point(74, 6);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(199, 20);
-            this.txtPassword.TabIndex = 7;
+            this.txtPassword.TabIndex = 0;
             // 
             // btnCreateGroup
             // 
@@ -78,7 +78,7 @@
             this.btnCreateGroup.Location = new System.Drawing.Point(73, 90);
             this.btnCreateGroup.Name = "btnCreateGroup";
             this.btnCreateGroup.Size = new System.Drawing.Size(199, 23);
-            this.btnCreateGroup.TabIndex = 8;
+            this.btnCreateGroup.TabIndex = 3;
             this.btnCreateGroup.Text = "Create Group";
             this.btnCreateGroup.UseVisualStyleBackColor = false;
             this.btnCreateGroup.Click += new System.EventHandler(this.btnCreateGroup_Click);
@@ -90,7 +90,7 @@
             this.txtGroup.Location = new System.Drawing.Point(74, 38);
             this.txtGroup.Name = "txtGroup";
             this.txtGroup.Size = new System.Drawing.Size(199, 20);
-            this.txtGroup.TabIndex = 9;
+            this.txtGroup.TabIndex = 1;
             // 
             // txtPIN
             // 
@@ -100,7 +100,7 @@
             this.txtPIN.MaxLength = 4;
             this.txtPIN.Name = "txtPIN";
             this.txtPIN.Size = new System.Drawing.Size(199, 20);
-            this.txtPIN.TabIndex = 11;
+            this.txtPIN.TabIndex = 2;
             // 
             // label4
             // 
@@ -129,7 +129,7 @@
             this.Controls.Add(this.label2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CreateGroupForm";
-            this.Text = "CreateGroupForm";
+            this.Text = "Create Group";
             this.ResumeLayout(false);
             this.PerformLayout();
 

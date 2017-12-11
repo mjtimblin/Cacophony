@@ -42,14 +42,12 @@ namespace Cacophony.AppCode
          {
             TcpClient clientSocket = default(TcpClient);
             clientSocket = clientListener.AcceptTcpClient();
-            if (!group.IsLocked)
-            {
-               ClientConnection cc = new ClientConnection();
-               cc.TcpC = clientSocket;
-               cc.ListeningThread = new Thread(() => ListenToClient(cc));
-               cc.ListeningThread.Start();
-               clients.Add(cc);
-            }
+
+            ClientConnection cc = new ClientConnection();
+            cc.TcpC = clientSocket;
+            cc.ListeningThread = new Thread(() => ListenToClient(cc));
+            cc.ListeningThread.Start();
+            clients.Add(cc);
          }
       }
 
@@ -208,7 +206,12 @@ namespace Cacophony.AppCode
          {
             var user = DatabaseHelper.SelectUser(content[1], group.GroupID);
             int userID;
-            if (user == null)
+            if(user == null && group.IsLocked)
+            {
+                CommandMessage fail = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "false|-1");
+                SendToClient(fail, cc);
+            }
+            else if (user == null)
             {
                userID = DatabaseHelper.InsertUser(content[1], group.GroupID, content[2]);
                CommandMessage success = new CommandMessage(-1, "server", CommandType.ValidateConfirm, "true|" + userID);
