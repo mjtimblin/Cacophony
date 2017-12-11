@@ -34,5 +34,10 @@ namespace Cacophony.Forms
             var resumeForm = new ResumeGroupForm();
             resumeForm.Show();
         }
+
+        private void StartForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
